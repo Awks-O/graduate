@@ -42,7 +42,8 @@ public class BlogService {
     }
 
     /**
-     *  增加配置，需要管理员权限
+     * 增加配置，需要管理员权限
+     *
      * @param blog
      * @return
      */
@@ -68,24 +69,22 @@ public class BlogService {
     }
 
     /**
-     *  根据id删除配置项
+     * 根据id删除配置项
+     * <p>
+     * 管理员或者自己创建的才可以删除掉
      *
-     *  管理员或者自己创建的才可以删除掉
      * @param id
      * @return
      */
     @RequiresRoles(Roles.ADMIN)
     public boolean delete(long id) {
 
-        Blog blog = dao.findOne(id);
-
-        // 参数校验
-        check(blog != null, "id.error", id);
+        Blog blog = dao.findById(id).get();
 
         // 判断是否可以删除
         check(canDelete(blog), "no.permission");
 
-        dao.delete(id);
+        dao.deleteById(id);
 
         // 修改操作需要打印操作结果
         log.info("delete blog success, id:" + id);
@@ -105,7 +104,7 @@ public class BlogService {
     }
 
     /**
-     *  分页查找
+     * 分页查找
      *
      * @param pageable
      * @param keyword

@@ -1,31 +1,30 @@
 package cn.core.common.beans;
 
-import java.util.List;
-
+import lombok.Data;
 import org.springframework.data.domain.Page;
 
-import lombok.Data;
+import java.util.List;
 
 /**
  * 分页响应对象
- * 
+ *
  * @author 肖文杰 https://github.com/xwjie/
  */
 @Data
 public class PageResp<T> {
-	private List<T> rows;
+    private List<T> rows;
 
-	private int page;
+    private int page;
 
-	private int pagesize;
+    private int pagesize;
 
-	private long total;
+    private long total;
 
-	public PageResp(Page<T> page) {
-		this.rows = page.getContent();
-		this.page = page.getNumber() + 1;
-		this.pagesize = page.getSize();
-		this.total = page.getTotalElements();
-	}
+    public PageResp(Page<T> page) {
+        this.rows = page.getContent();
+        this.page = page.getNumber() + 1;
+        this.pagesize = page.getSize();
+        this.total = page.getTotalElements();
+    }
 
 }

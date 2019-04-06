@@ -131,7 +131,7 @@ public class ShiroConfig {
 
     /**
      * 开启shiro aop注解支持.
-     *
+     * <p>
      * 使用代理方式;所以需要开启代码支持;
      * Controller才能使用@RequiresPermissions
      *
@@ -155,7 +155,6 @@ public class ShiroConfig {
 
         return shiroFilterFactoryBean;
     }
-
 
 
 }

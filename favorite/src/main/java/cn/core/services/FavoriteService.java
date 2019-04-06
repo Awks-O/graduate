@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 
-import static cn.core.common.utils.CheckUtil.*;
+import static cn.core.common.utils.CheckUtil.check;
+import static cn.core.common.utils.CheckUtil.notNull;
 
 /**
  * 配置业务处理类
@@ -79,15 +80,12 @@ public class FavoriteService {
      * @return
      */
     public boolean delete(long id) {
-        Favorite favorite = dao.findOne(id);
-
-        // 参数校验
-        check(favorite != null, "id.error", id);
+        Favorite favorite = dao.findById(id).get();
 
         // 判断是否可以删除
         check(canDelete(favorite), "no.permission");
 
-        dao.delete(id);
+        dao.deleteById(id);
 
         // 修改操作需要打印操作结果
         log.info("delete favorite success, id:" + id);

@@ -5,10 +5,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
- *  角色
+ * 角色
  */
 @Entity
 @Data
@@ -22,7 +22,7 @@ public class Role extends BaseEntity {
     private String name;
 
     /**
-     *  角色描述
+     * 角色描述
      */
     private String comment;
 

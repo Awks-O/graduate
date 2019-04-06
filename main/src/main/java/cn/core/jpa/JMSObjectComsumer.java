@@ -3,7 +3,7 @@ package cn.core.jpa;
 import cn.core.beans.BaseEntity;
 import cn.core.beans.Favorite;
 import cn.core.consts.ObjType;
-import cn.core.daos.BlogDao;
+//import cn.core.daos.BlogDao;
 import cn.core.daos.FavoriteDao;
 import cn.core.features.Favoritable;
 import cn.core.jms.JMSType;
@@ -36,7 +36,8 @@ public class JMSObjectComsumer {
     }
 
     /**
-     *  现在删除对象的时候，更新各种数据（如收藏数）
+     * 现在删除对象的时候，更新各种数据（如收藏数）
+     *
      * @param obj
      */
     private void updateCounts(@Payload BaseEntity obj) {
@@ -58,7 +59,8 @@ public class JMSObjectComsumer {
     }
 
     /**
-     *  更新对象的收藏数量
+     * 更新对象的收藏数量
+     *
      * @param objType
      * @param objId
      */
@@ -68,29 +70,29 @@ public class JMSObjectComsumer {
 
         // 找到对应的对象
         // 对象必须实现了可收藏，否则报错，可以把报错完善一下
-        Favoritable bizObj = (Favoritable) dao.findOne(objId);
+        Favoritable bizObj = (Favoritable) dao.findById(objId).get();
 
         // 更新收藏数量字段
         // FIXME 也可以在DAO上做，会少一些SQL
-        int count = favoriteDao.countByObjTypeAndObjId(objType, objId);
-        bizObj.setFavoriteCount(count);
+//        int count = favoriteDao.countByObjTypeAndObjId(objType, objId);
+//        bizObj.setFavoriteCount(count);
 
         dao.save(bizObj);
 
-        log.info("update  obj [type:{}, id:{}] favorite count[{}] success.", objType, objId, count);
+//        log.info("update  obj [type:{}, id:{}] favorite count[{}] success.", objType, objId, count);
     }
 
-    @Autowired
-    BlogDao blogDao;
+//    @Autowired
+//    BlogDao blogDao;
 
-    @Autowired
-    FavoriteDao favoriteDao;
+//    @Autowired
+//    FavoriteDao favoriteDao;
 
     PagingAndSortingRepository<? extends BaseEntity, Long> findDao(int objType) {
-        if (objType == ObjType.BLOG) {
-            return blogDao;
-        }
-
-        throw new IllegalArgumentException("object type error: " + objType);
+//        if (objType == ObjType.BLOG) {
+//            return blogDao;
+//        }
+        return null;
+//        throw new IllegalArgumentException("object type error: " + objType);
     }
 }

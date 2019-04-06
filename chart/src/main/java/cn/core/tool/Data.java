@@ -1,9 +1,9 @@
 package cn.core.tool;
 
 /**
- *  日志里面的文件
+ * 日志里面的文件
  */
-public  class Data {
+public class Data {
     // 0, 2018-03-29 , 600721 , Buy!, price: 9.54856 , volume: 853
     String date;
     String code;

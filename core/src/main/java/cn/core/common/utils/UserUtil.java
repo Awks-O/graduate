@@ -1,14 +1,13 @@
 package cn.core.common.utils;
 
-import java.util.List;
-import java.util.Locale;
-
 import cn.core.common.consts.Roles;
+import cn.core.common.exceptions.UnloginException;
 import cn.core.common.rbac.Role;
+import cn.core.common.rbac.User;
 import org.apache.log4j.MDC;
 
-import cn.core.common.rbac.User;
-import cn.core.common.exceptions.UnloginException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * 用户工具类
@@ -95,7 +94,7 @@ public class UserUtil {
         List<Role> roles = getUser().getRoles();
 
         for (Role role : roles) {
-            if (Roles.ADMIN .equals(role.getName())) {
+            if (Roles.ADMIN.equals(role.getName())) {
                 return true;
             }
         }

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *  生成图表
+ * 生成图表
  */
 @Service
 @Slf4j
@@ -31,9 +31,9 @@ public class ChartService {
         bean.setColumns(Lists.newArrayList("日期", "盈亏"));
 
         // 得到记录
-        List<EndData> endDatas =  endDataDao.findAllByRecordId(uploadRecordId);
+        List<EndData> endDatas = endDataDao.findAllByRecordId(uploadRecordId);
 
-        log.info("uploadRecordId: " + uploadRecordId +", data size: " + endDatas.size() );
+        log.info("uploadRecordId: " + uploadRecordId + ", data size: " + endDatas.size());
 
         // 转换为图表对象
         List<Entry> rows = endDatas.stream().map(ChartService::toChartEntry).collect(Collectors.toList());

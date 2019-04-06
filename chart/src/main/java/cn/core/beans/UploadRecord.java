@@ -8,11 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 
 /**
- *  上传记录
+ * 上传记录
  */
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
 public class UploadRecord extends BaseEntity {
 
@@ -26,7 +26,7 @@ public class UploadRecord extends BaseEntity {
     private long size;
 
     /**
-     *  文件包含的数据量
+     * 文件包含的数据量
      */
-    private  int dataCount;
+    private int dataCount;
 }

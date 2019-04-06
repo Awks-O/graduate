@@ -21,7 +21,7 @@ public class EndData extends BaseEntity {
     private long recordId;
 
 
-    private String date ;
+    private String date;
 
     private int volume;
 

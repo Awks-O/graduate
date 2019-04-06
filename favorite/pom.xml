@@ -13,7 +13,6 @@
     <dependencies>
 
 
-
         <dependency>
             <groupId>cn.xiaowenjie</groupId>
             <artifactId>core</artifactId>

@@ -7,9 +7,8 @@ import java.util.List;
 
 /**
  * 用户DAO
- * 
- * @author 肖文杰 https://github.com/xwjie/
  *
+ * @author 肖文杰 https://github.com/xwjie/
  */
 public interface EndDataDao extends PagingAndSortingRepository<EndData, Long> {
 

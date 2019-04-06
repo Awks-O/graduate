@@ -1,6 +1,5 @@
 package cn.core.action;
 
-import cn.core.beans.Config;
 import cn.core.common.beans.PageReq;
 import cn.core.common.beans.PageResp;
 import cn.core.common.beans.ResultBean;

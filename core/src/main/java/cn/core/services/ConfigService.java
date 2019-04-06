@@ -1,14 +1,11 @@
 package cn.core.services;
 
-import static cn.core.common.utils.CheckUtil.check;
-import static cn.core.common.utils.CheckUtil.notEmpty;
-import static cn.core.common.utils.CheckUtil.notNull;
-
-import java.util.Collection;
-import java.util.List;
-
+import cn.core.beans.Config;
+import cn.core.common.beans.PageResp;
 import cn.core.common.consts.Roles;
 import cn.core.common.utils.UserUtil;
+import cn.core.daos.ConfigDao;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.google.common.collect.Lists;
+import java.util.Collection;
+import java.util.List;
 
-import cn.core.beans.Config;
-import cn.core.common.beans.PageResp;
-import cn.core.daos.ConfigDao;
+import static cn.core.common.utils.CheckUtil.*;
 
 /**
  * 配置业务处理类
@@ -46,7 +42,8 @@ public class ConfigService {
     }
 
     /**
-     *  增加配置，需要管理员权限
+     * 增加配置，需要管理员权限
+     *
      * @param config
      * @return
      */
@@ -72,24 +69,22 @@ public class ConfigService {
     }
 
     /**
-     *  根据id删除配置项
+     * 根据id删除配置项
+     * <p>
+     * 管理员或者自己创建的才可以删除掉
      *
-     *  管理员或者自己创建的才可以删除掉
      * @param id
      * @return
      */
     @RequiresRoles(Roles.ADMIN)
     public boolean delete(long id) {
 
-        Config config = dao.findOne(id);
-
-        // 参数校验
-        check(config != null, "id.error", id);
+        Config config = dao.findById(id).get();
 
         // 判断是否可以删除
         check(canDelete(config), "no.permission");
 
-        dao.delete(id);
+        dao.deleteById(id);
 
         // 修改操作需要打印操作结果
         log.info("delete config success, id:" + id);
@@ -109,7 +104,7 @@ public class ConfigService {
     }
 
     /**
-     *  分页查找
+     * 分页查找
      *
      * @param pageable
      * @param keyword

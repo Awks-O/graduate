@@ -47,7 +47,7 @@ public class ValidExceptionHandler {
     private String extractErrorMsg(BindingResult result) {
         List<FieldError> errors = result.getFieldErrors();
 
-        return errors.stream().map(e -> e.getField()+ ":" + e.getDefaultMessage())
-                .reduce((s1, s2) -> s1 + " ; " +s2).orElseGet( ()->"参数非法");
+        return errors.stream().map(e -> e.getField() + ":" + e.getDefaultMessage())
+                .reduce((s1, s2) -> s1 + " ; " + s2).orElseGet(() -> "参数非法");
     }
 }

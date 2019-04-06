@@ -1,17 +1,15 @@
 package cn.core;
 
-import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
 
 /**
- *  图标和上传模块
+ * 图标和上传模块
  */
 //@Component
 public class ChartModule {
 
     @PostConstruct
-    public  void init(){
+    public void init() {
         System.out.println("-----------------------------------------------");
         System.out.println("--                                                                     --");
         System.out.println("--              Chart Module Loaded                 --");

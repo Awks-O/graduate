@@ -15,42 +15,42 @@ import javax.mail.internet.MimeMessage;
 @Component
 public class MailTool {
 
-	@Autowired
-	JMSTool jmsTool;
+    @Autowired
+    JMSTool jmsTool;
 
-	@Value("${spring.mail.from}")
-	private String from;
+    @Value("${spring.mail.from}")
+    private String from;
 
-	@Autowired
-	private JavaMailSender mailSender;
+    @Autowired
+    private JavaMailSender mailSender;
 
-	public void send(String subjct, String text, String... to) {
-		SimpleMailMessage message = new SimpleMailMessage();
+    public void send(String subjct, String text, String... to) {
+        SimpleMailMessage message = new SimpleMailMessage();
 
-		message.setFrom(from);
-		message.setTo(to);
-		message.setSubject(subjct);
-		message.setText(text);
+        message.setFrom(from);
+        message.setTo(to);
+        message.setSubject(subjct);
+        message.setText(text);
 
-		jmsTool.sendMessage(JMSType.SEND_MAIL, message);
-	}
+        jmsTool.sendMessage(JMSType.SEND_MAIL, message);
+    }
 
-	@SneakyThrows
-	public void sendHtml(String subjct, String text, String... to) {
-		MimeMessage mimeMessage = mailSender.createMimeMessage();
+    @SneakyThrows
+    public void sendHtml(String subjct, String text, String... to) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
 
-		MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
 
-		messageHelper.setFrom(from);
-		messageHelper.setTo(to);
-		messageHelper.setSubject(subjct);
+        messageHelper.setFrom(from);
+        messageHelper.setTo(to);
+        messageHelper.setSubject(subjct);
 
-		// html格式，第二个参数为true
-		messageHelper.setText(text, true);
+        // html格式，第二个参数为true
+        messageHelper.setText(text, true);
 
-		// 附件
-		// messageHelper.addAttachment
+        // 附件
+        // messageHelper.addAttachment
 
-		jmsTool.sendMessage(JMSType.SEND_MAIL, mimeMessage);
-	}
+        jmsTool.sendMessage(JMSType.SEND_MAIL, mimeMessage);
+    }
 }

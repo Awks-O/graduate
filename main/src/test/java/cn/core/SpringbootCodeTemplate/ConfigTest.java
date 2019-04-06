@@ -1,10 +1,12 @@
 package cn.core.SpringbootCodeTemplate;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Collection;
-
+import cn.core.SpringbootCodeTemplateApplication;
+import cn.core.beans.Config;
+import cn.core.common.daos.UserDao;
+import cn.core.common.exceptions.CheckException;
+import cn.core.common.rbac.User;
+import cn.core.common.utils.UserUtil;
+import cn.core.services.ConfigService;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -16,182 +18,179 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import cn.core.SpringbootCodeTemplateApplication;
-import cn.core.beans.Config;
-import cn.core.common.rbac.User;
-import cn.core.common.exceptions.CheckException;
-import cn.core.common.utils.UserUtil;
-import cn.core.common.daos.UserDao;
-import cn.core.services.ConfigService;
+import java.util.Collection;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringbootCodeTemplateApplication.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ConfigTest {
 
-  @Autowired
-  ConfigService configService;
+    @Autowired
+    ConfigService configService;
 
-  @Autowired
-  UserDao userDao;
+    @Autowired
+    UserDao userDao;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
-  private static long randomNum = 0;
-  private static String userName = null;
+    private static long randomNum = 0;
+    private static String userName = null;
 
-  @Before
-  public void random() {
-    // 整个方法会执行多次
-    if (randomNum == 0) {
-      randomNum = System.currentTimeMillis();
-      userName = "junituser" + randomNum;
-    }
-  }
-
-  @Test
-  public void test1_addUser() {
-    System.out.println("\n\n---addUser: " + userName);
-
-    // 新增用户
-    {
-      User user = new User();
-
-      user.setName(userName);
-      user.setNick("测试用户");
-
-      // user.setRole(Roles.USER);
-
-      user = userDao.save(user);
-
-      assertTrue(user.getId() > 0L);
+    @Before
+    public void random() {
+        // 整个方法会执行多次
+        if (randomNum == 0) {
+            randomNum = System.currentTimeMillis();
+            userName = "junituser" + randomNum;
+        }
     }
 
-    // 测试新增数据是否成功
-    {
-      User user = userDao.findByName(userName);
-      assertNotNull(user);
+    @Test
+    public void test1_addUser() {
+        System.out.println("\n\n---addUser: " + userName);
+
+        // 新增用户
+        {
+            User user = new User();
+
+            user.setName(userName);
+            user.setNick("测试用户");
+
+            // user.setRole(Roles.USER);
+
+            user = userDao.save(user);
+
+            assertTrue(user.getId() > 0L);
+        }
+
+        // 测试新增数据是否成功
+        {
+            User user = userDao.findByName(userName);
+            assertNotNull(user);
+        }
+
     }
 
-  }
+    @Test
+    public void test2_addConfig() {
+        System.out.println("\n\n---addConfig---\n\n");
 
-  @Test
-  public void test2_addConfig() {
-    System.out.println("\n\n---addConfig---\n\n");
+        // 设置当前登陆用户
+        User user = userDao.findByName(userName);
+        UserUtil.setUser(user);
 
-    // 设置当前登陆用户
-    User user = userDao.findByName(userName);
-    UserUtil.setUser(user);
+        // 创建config数据
+        {
+            Config config = new Config();
 
-    // 创建config数据
-    {
-      Config config = new Config();
+            config.setName("测试数据：" + randomNum);
+            System.out.println("测试数据：" + randomNum);
+            config.setValue("https://github.com/xwjie");
+            config.setDescription("晓风轻：" + randomNum);
 
-      config.setName("测试数据：" + randomNum);
-      System.out.println("测试数据：" + randomNum);
-      config.setValue("https://github.com/xwjie");
-      config.setDescription("晓风轻：" + randomNum);
-
-      long newId = configService.add(config);
-      assertTrue(newId > 0L);
-    }
-  }
-
-  @Test
-  public void test3_getAllConfig() {
-    System.out.println("\n\n---testGetConfig---\n\n");
-
-    Collection<Config> all = configService.getAll();
-
-    // 有数据
-    assertTrue(all.size() > 0);
-  }
-
-  @Test
-  public void test4_addConfigException() {
-    System.out.println("\n\n---addTestData---\n\n");
-
-    User user = userDao.findByName(userName);
-
-    // 设置当前登陆用户
-    UserUtil.setUser(user);
-
-    // 创建config数据
-    {
-      System.out.println("\n\n--测试[参数为空]---\n\n");
-
-      thrown.expect(CheckException.class);
-      thrown.expectMessage("参数为空");
-
-      configService.add(null);
+            long newId = configService.add(config);
+            assertTrue(newId > 0L);
+        }
     }
 
-  }
+    @Test
+    public void test3_getAllConfig() {
+        System.out.println("\n\n---testGetConfig---\n\n");
 
-  @Test
-  public void test5_addConfigException() {
-    System.out.println("\n\n---addTestData---\n\n");
+        Collection<Config> all = configService.getAll();
 
-    User user = userDao.findByName(userName);
-
-    // 设置当前登陆用户
-    UserUtil.setUser(user);
-
-    // 创建config数据
-    {
-      System.out.println("\n\n--测试[取值为空]---\n\n");
-
-      thrown.expect(CheckException.class);
-      thrown.expectMessage("取值为空");
-
-      Config config = new Config();
-
-      config.setName("测试数据：" + randomNum);
-      config.setValue(null);
-
-      configService.add(config);
+        // 有数据
+        assertTrue(all.size() > 0);
     }
-  }
 
-  @Test
-  public void test6_addConfigException() {
-    System.out.println("\n\n---addTestData---\n\n");
+    @Test
+    public void test4_addConfigException() {
+        System.out.println("\n\n---addTestData---\n\n");
 
-    User user = userDao.findByName(userName);
+        User user = userDao.findByName(userName);
 
-    // 设置当前登陆用户
-    UserUtil.setUser(user);
+        // 设置当前登陆用户
+        UserUtil.setUser(user);
 
-    // 创建config数据
-    {
-      System.out.println("\n\n--测试[名称已经存在]---\n\n");
+        // 创建config数据
+        {
+            System.out.println("\n\n--测试[参数为空]---\n\n");
 
-      thrown.expect(CheckException.class);
-      thrown.expectMessage("名称已经存在");
+            thrown.expect(CheckException.class);
+            thrown.expectMessage("参数为空");
 
-      Config config = new Config();
+            configService.add(null);
+        }
 
-      config.setName("测试数据：" + randomNum);
-      config.setValue("https://github.com/xwjie");
-      config.setDescription("晓风轻：" + randomNum);
-
-      configService.add(config);
     }
-  }
 
-  @Test
-  public void test7_deleteConfig() {
-    System.out.println("\n\n---deleteConfig---\n\n");
+    @Test
+    public void test5_addConfigException() {
+        System.out.println("\n\n---addTestData---\n\n");
 
-    User user = userDao.findByName(userName);
+        User user = userDao.findByName(userName);
 
-    // 设置当前登陆用户
-    UserUtil.setUser(user);
+        // 设置当前登陆用户
+        UserUtil.setUser(user);
 
-    Config config = configService.getByName("测试数据：" + randomNum);
-    assertTrue(config != null);
-    assertTrue(configService.delete(config.getId()));
-  }
+        // 创建config数据
+        {
+            System.out.println("\n\n--测试[取值为空]---\n\n");
+
+            thrown.expect(CheckException.class);
+            thrown.expectMessage("取值为空");
+
+            Config config = new Config();
+
+            config.setName("测试数据：" + randomNum);
+            config.setValue(null);
+
+            configService.add(config);
+        }
+    }
+
+    @Test
+    public void test6_addConfigException() {
+        System.out.println("\n\n---addTestData---\n\n");
+
+        User user = userDao.findByName(userName);
+
+        // 设置当前登陆用户
+        UserUtil.setUser(user);
+
+        // 创建config数据
+        {
+            System.out.println("\n\n--测试[名称已经存在]---\n\n");
+
+            thrown.expect(CheckException.class);
+            thrown.expectMessage("名称已经存在");
+
+            Config config = new Config();
+
+            config.setName("测试数据：" + randomNum);
+            config.setValue("https://github.com/xwjie");
+            config.setDescription("晓风轻：" + randomNum);
+
+            configService.add(config);
+        }
+    }
+
+    @Test
+    public void test7_deleteConfig() {
+        System.out.println("\n\n---deleteConfig---\n\n");
+
+        User user = userDao.findByName(userName);
+
+        // 设置当前登陆用户
+        UserUtil.setUser(user);
+
+        Config config = configService.getByName("测试数据：" + randomNum);
+        assertTrue(config != null);
+        assertTrue(configService.delete(config.getId()));
+    }
 
 }

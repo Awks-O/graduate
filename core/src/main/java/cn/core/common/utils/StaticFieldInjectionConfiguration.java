@@ -1,14 +1,15 @@
 package cn.core.common.utils;
 
-import javax.annotation.PostConstruct;
-
 import cn.core.daos.ConfigDao;
+import cn.core.daos.MedicineDao;
 import cn.core.jms.JMSTool;
 import cn.core.jpa.JPAListener;
 import cn.core.tool.ConfigUtil;
+import cn.core.tool.MedicineUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 工具类的注入
@@ -22,6 +23,9 @@ public class StaticFieldInjectionConfiguration {
     MessageSource resources;
 
     @Autowired
+    private MedicineDao medicineDao;
+
+    @Autowired
     ConfigDao configDao;
 
     @Autowired
@@ -33,7 +37,7 @@ public class StaticFieldInjectionConfiguration {
 
         CheckUtil.setResources(resources);
         ConfigUtil.setConfigDao(configDao);
-
+        MedicineUtil.setMedicineDao(medicineDao);
         JPAListener.setJmsTool(jmsTool);
     }
 }

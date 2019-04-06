@@ -1,5 +1,8 @@
 package cn.core.common.aop;
 
+import cn.core.common.beans.ResultBean;
+import cn.core.common.exceptions.CheckException;
+import cn.core.common.exceptions.UnloginException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -11,10 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import cn.core.common.beans.ResultBean;
-import cn.core.common.exceptions.CheckException;
-import cn.core.common.exceptions.UnloginException;
 
 /**
  * 处理和包装异常
@@ -56,7 +55,7 @@ public class ControllerAOP {
             result.setCode(ResultBean.FAIL);
         }
         // 自己抛出的
-        else if (e instanceof UnloginException ) {
+        else if (e instanceof UnloginException) {
             result.setMsg("Unlogin");
             result.setCode(ResultBean.NO_LOGIN);
         }
@@ -74,8 +73,7 @@ public class ControllerAOP {
         else if (e instanceof AuthorizationException) {
             result.setMsg("Unlogin");
             result.setCode(ResultBean.NO_LOGIN);
-        }
-        else {
+        } else {
             logger.error(pjp.getSignature() + " error ", e);
 
             //TODO 未知的异常，应该格外注意，可以发送邮件通知等

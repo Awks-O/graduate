@@ -1,11 +1,12 @@
 .DS_Store
 node_modules
 /dist
-.class
+*.class
+/target
 # local env files
 .env.local
 .env.*.local
-
+*.iml
 # Log files
 npm-debug.log*
 yarn-debug.log*

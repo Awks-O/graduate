@@ -7,14 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- *  Blog类DAO
- * 
- * @author 肖文杰 https://github.com/xwjie/
+ * Blog类DAO
  *
+ * @author 肖文杰 https://github.com/xwjie/
  */
 public interface BlogDao extends PagingAndSortingRepository<Blog, Long> {
-	Blog findByTitle(String title);
+    Blog findByTitle(String title);
 
-	@Query(value = "select t from Blog t where t.title like %?1% or t.body like %?1%", nativeQuery = false)
-	Page<Blog> findAllByKeyword(String keyword, Pageable pageable);
+    @Query(value = "select t from Blog t where t.title like %?1% or t.body like %?1%", nativeQuery = false)
+    Page<Blog> findAllByKeyword(String keyword, Pageable pageable);
 }

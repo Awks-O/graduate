@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Cache Index</title>
+    <meta charset="UTF-8">
+    <title>Cache Index</title>
 </head>
 <body>
-	<h3>
-		Cache Names
-		<button onclick="clearAll()">Clear All Caches</button>
-	</h3>
-	<div id="caches"></div>
-	<script id="template1" type="text/html">
-<div>
-    <%if(list.length>0) { %>
+<h3>
+    Cache Names
+    <button onclick="clearAll()">Clear All Caches</button>
+</h3>
+<div id="caches"></div>
+<script id="template1" type="text/html">
+    <div>
+        <%if(list.length>0) { %>
         <ul>
             <!-- 循环语句 for-->
             <%for(var i=0; i < list.length; i++){%>
-                <li><%=list[i]%> <a href="###" onclick="javascirpt:clearData('<%=list[i]%>')">Clear<a/></li>
+            <li><%=list[i]%> <a href="###" onclick="javascirpt:clearData('<%=list[i]%>')">Clear<a/></li>
             <%}%>
         </ul>
-    <%}else{%>
-        <h3>No Data.</h3>   
-    <%}%>
-</div>  
-	</script>
-	<script src="resources/lib/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript">
+        <%}else{%>
+        <h3>No Data.</h3>
+        <%}%>
+    </div>
+</script>
+<script src="resources/lib/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
 		function showError(s) {
 			alert(s);
 		}
@@ -73,8 +73,9 @@
 		$(document).ready(function() {
 			fetchAllNames();
 		});
-	</script>
-	<script src="resources/lib/baiduTemplate.js"></script>
+
+</script>
+<script src="resources/lib/baiduTemplate.js"></script>
 
 </body>
 </html>

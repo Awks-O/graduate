@@ -1,16 +1,15 @@
 package cn.core.action;
 
-import javax.servlet.http.HttpSession;
-
+import cn.core.common.beans.ResultBean;
+import cn.core.common.rbac.User;
+import cn.core.common.utils.UserUtil;
+import cn.core.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import cn.core.common.rbac.User;
-import cn.core.common.beans.ResultBean;
-import cn.core.common.utils.UserUtil;
-import cn.core.services.UserService;
+import javax.servlet.http.HttpSession;
 
 /**
  * app相关的controller，支持跨域

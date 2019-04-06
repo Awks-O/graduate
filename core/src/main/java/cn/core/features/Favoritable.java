@@ -1,7 +1,7 @@
 package cn.core.features;
 
 /**
- *  可以收藏
+ * 可以收藏
  */
 public interface Favoritable {
 

@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 public class FavoriteModule {
 
     @PostConstruct
-    public  void init(){
+    public void init() {
         System.out.println("-----------------------------------------------");
         System.out.println("--                                                                     --");
         System.out.println("--          Favorite Module Loaded                 --");

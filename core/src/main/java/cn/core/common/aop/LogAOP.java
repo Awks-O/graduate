@@ -17,13 +17,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
- *  日志信息处理AOP
- *  把需要的信息从参数中提取出来，转成json字符串放到MDC中使用。
+ * 日志信息处理AOP
+ * 把需要的信息从参数中提取出来，转成json字符串放到MDC中使用。
+ * <p>
+ * 注意：注解不支持重入（就是嵌套的方法里面还有LOG注解），因为我觉得不需要嵌套
+ * 如果你项目中有这种使用场景，自己修改一下也非常简单，就是修改前保存起来即可。
  *
- *  注意：注解不支持重入（就是嵌套的方法里面还有LOG注解），因为我觉得不需要嵌套
- *  如果你项目中有这种使用场景，自己修改一下也非常简单，就是修改前保存起来即可。
- *
- * @author  晓风轻 https://github.com/xwjie/ElementVueSpringbootCodeTemplate
+ * @author 晓风轻 https://github.com/xwjie/ElementVueSpringbootCodeTemplate
  */
 @Order(-100)
 @Component

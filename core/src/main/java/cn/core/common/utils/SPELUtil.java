@@ -6,9 +6,9 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 /**
- *  spring 表达式 AOP 处理工具类
+ * spring 表达式 AOP 处理工具类
  *
- * @author  晓风轻 https://github.com/xwjie/PLMCodeTemplate
+ * @author 晓风轻 https://github.com/xwjie/PLMCodeTemplate
  */
 public class SPELUtil {
 
@@ -24,13 +24,14 @@ public class SPELUtil {
     }
 
     /**
-     *  得到参数名称和值 放到 spel 上下文
+     * 得到参数名称和值 放到 spel 上下文
+     *
      * @param pjp
      */
     private void extractArgments(ProceedingJoinPoint pjp) {
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
 
-        String[] names   = methodSignature.getParameterNames();
+        String[] names = methodSignature.getParameterNames();
         Object[] args = pjp.getArgs();
 
         for (int i = 0; i < names.length; i++) {
@@ -45,7 +46,7 @@ public class SPELUtil {
      * @return
      */
     public Object cacl(String expr) {
-        if (expr == null || expr.trim().isEmpty() ) {
+        if (expr == null || expr.trim().isEmpty()) {
             return null;
         }
 

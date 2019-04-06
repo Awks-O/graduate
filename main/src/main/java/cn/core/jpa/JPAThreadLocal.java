@@ -1,7 +1,7 @@
 package cn.core.jpa;
 
 public class JPAThreadLocal {
-    static ThreadLocal<Boolean>  backgroundThreadLocal =new ThreadLocal<Boolean>(){
+    static ThreadLocal<Boolean> backgroundThreadLocal = new ThreadLocal<Boolean>() {
         @Override
         protected Boolean initialValue() {
             return false;
@@ -12,7 +12,7 @@ public class JPAThreadLocal {
         backgroundThreadLocal.set(value);
     }
 
-    public static boolean background(){
+    public static boolean background() {
         return backgroundThreadLocal.get();
     }
 }

@@ -7,10 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- *  上传记录DAO
- * 
- * @author 肖文杰 https://github.com/xwjie/
+ * 上传记录DAO
  *
+ * @author 肖文杰 https://github.com/xwjie/
  */
 public interface UploadRecordDao extends PagingAndSortingRepository<UploadRecord, Long> {
 
@@ -18,7 +17,8 @@ public interface UploadRecordDao extends PagingAndSortingRepository<UploadRecord
     Page<UploadRecord> findAllByKeyword(String keyword, Pageable pageable);
 
     /**
-     *  分页查找所有记录，按创建时间倒序
+     * 分页查找所有记录，按创建时间倒序
+     *
      * @param pageable
      * @return
      */

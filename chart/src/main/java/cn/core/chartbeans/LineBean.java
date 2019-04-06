@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- *  柱状图数据类
+ * 柱状图数据类
  */
 @Data
 public class LineBean {

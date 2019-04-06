@@ -1,6 +1,5 @@
 package cn.core.daos;
 
-import cn.core.beans.Config;
 import cn.core.domain.MedicineDO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
