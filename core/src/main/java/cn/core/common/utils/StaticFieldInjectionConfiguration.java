@@ -38,6 +38,6 @@ public class StaticFieldInjectionConfiguration {
         CheckUtil.setResources(resources);
         ConfigUtil.setConfigDao(configDao);
         MedicineUtil.setMedicineDao(medicineDao);
-        JPAListener.setJmsTool(jmsTool);
+//        JPAListener.setJmsTool(jmsTool);
     }
 }

@@ -1,16 +1,12 @@
 package cn.core;
 
 import cn.core.beans.Config;
-import cn.core.common.consts.Roles;
-import cn.core.common.daos.RoleDao;
+import cn.core.beans.Medicine;
 import cn.core.common.daos.UserDao;
-import cn.core.common.rbac.Role;
-import cn.core.common.rbac.User;
 import cn.core.common.utils.UserUtil;
+import cn.core.daos.MedicineDao;
 import cn.core.services.ConfigService;
 import cn.core.services.UserService;
-import cn.core.tool.PasswordUtil;
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.ThreadContext;
@@ -18,26 +14,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 /**
  * 增加测试数据 （上线时候需要删除掉）
  *
  * @author 晓风轻
  */
-@Component
+//@Component
 @Slf4j
 public class CreateTestData implements CommandLineRunner {
 
     @Autowired
-    ConfigService configService;
+    private MedicineDao medicineDao;
 
     @Autowired
-    UserDao userDao;
+    private ConfigService configService;
 
     @Autowired
-    UserService userSevice;
+    private UserDao userDao;
 
     @Autowired
-    RoleDao roleDao;
+    private UserService userSevice;
 
     @Override
     public void run(String... args) throws Exception {
@@ -58,55 +56,23 @@ public class CreateTestData implements CommandLineRunner {
         log.error("---addUser---");
 
         // role
-        Role normaleRole = new Role();
+        Medicine data;
 
-        normaleRole.setName(Roles.NORMAL_USER);
-        normaleRole.setComment("普通用户");
-
-        normaleRole = roleDao.save(normaleRole);
-
-
-        Role adminRole = new Role();
-
-        adminRole.setName(Roles.ADMIN);
-        adminRole.setComment("管理员");
-
-        adminRole = roleDao.save(adminRole);
-
-        // amdin
-        User admin = new User();
-
-        admin.setName("xwjie");
-        admin.setNick("晓风轻");
-
-        // 盐和密码
-        admin.setSalt("admin");
-        String password = PasswordUtil.renewPassword("123456", admin.getSalt());
-
-        // 计算后密码
-        admin.setPassword(password);
-
-        // 角色
-        admin.setRoles(Lists.newArrayList(adminRole, normaleRole));
-
-        userDao.save(admin);
-
+        Date date = new Date();
         for (int i = 1; i <= 10; i++) {
-            User user = new User();
+            data = new Medicine();
 
-            user.setName("user" + i);
-            user.setNick("测试用户" + i);
+            data.setAlarmValue(100D);
+            data.setMedicineName("name" + i);
+            data.setMedicineNumber("num" + i);
+            data.setPurchaseDate(date);
+            data.setStock(1000D);
+            data.setStockUnit("mm");
+            data.setUsableTime(date);
+            data.setCreateTime(date);
+            data.setUpdateTime(date);
 
-            // 盐和密码
-            user.setSalt(user.getName());
-            String password2 = PasswordUtil.renewPassword("123456", user.getSalt());
-
-            // 计算后密码
-            user.setPassword(password2);
-
-            user.setRoles(Lists.newArrayList(normaleRole));
-
-            userDao.save(user);
+            medicineDao.save(data);
         }
     }
 

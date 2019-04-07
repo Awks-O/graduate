@@ -1,7 +1,7 @@
 package cn.core.tool;
 
 import cn.core.daos.MedicineDao;
-import cn.core.domain.MedicineDO;
+import cn.core.beans.Medicine;
 
 import static cn.core.common.utils.CheckUtil.check;
 
@@ -14,14 +14,14 @@ public class MedicineUtil {
     }
 
     public static String get(String name) {
-        MedicineDO config = medicineDao.findByName(name);
+        Medicine config = medicineDao.findByMedicineName(name);
 
         assert (config != null);
         return config.getMedicineName();
     }
 
     public static String get(String name, String defaultValue) {
-        MedicineDO config = medicineDao.findByName(name);
+        Medicine config = medicineDao.findByMedicineName(name);
         return config != null ? config.getMedicineName() : defaultValue;
     }
 

@@ -23,9 +23,9 @@ import java.util.Collection;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringbootCodeTemplateApplication.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = SpringbootCodeTemplateApplication.class)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ConfigTest {
 
     @Autowired

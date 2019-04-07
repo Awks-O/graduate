@@ -2,27 +2,25 @@ package cn.core.services;
 
 import cn.core.common.beans.PageResp;
 import cn.core.daos.MedicineDao;
-import cn.core.domain.MedicineDO;
+import cn.core.beans.Medicine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
-
 @Service
 @Slf4j
 public class MedicineService {
 
-//    @Resource
-    private MedicineDao medicineDao;
+    @Autowired
+    MedicineDao medicineDao;
 
-    public MedicineDO findByName() {
-        return medicineDao.findByName("*");
+    public Medicine findByName() {
+        return medicineDao.findByMedicineName("*");
     }
 
-    public PageResp<MedicineDO> listPage(Pageable pageable, String keyword) {
+    public PageResp<Medicine> listPage(Pageable pageable, String keyword) {
         if (StringUtils.isEmpty(keyword)) {
             return new PageResp<>(medicineDao.findAll(pageable));
         } else {

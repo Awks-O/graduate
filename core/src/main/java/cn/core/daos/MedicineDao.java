@@ -1,15 +1,15 @@
 package cn.core.daos;
 
-import cn.core.domain.MedicineDO;
+import cn.core.beans.Medicine;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface MedicineDao extends PagingAndSortingRepository<MedicineDO, Long> {
+public interface MedicineDao extends PagingAndSortingRepository<Medicine, Long> {
 
-    MedicineDO findByName(String name);
+    Medicine findByMedicineName(String medicineName);
 
-    @Query(value = "select t from Config t where t.name like %?1% or t.value like %?1% or t.description like %?1%")
-    Page<MedicineDO> findAllByKeyword(String keyword, Pageable pageable);
+    @Query(value = "select t from Medicine t where t.medicineName like %?1%")
+    Page<Medicine> findAllByKeyword(String keyword, Pageable pageable);
 }
