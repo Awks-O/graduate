@@ -2,13 +2,9 @@ package cn.core.jpa;
 
 import cn.core.beans.BaseEntity;
 import cn.core.beans.Favorite;
-import cn.core.consts.ObjType;
-//import cn.core.daos.BlogDao;
-import cn.core.daos.FavoriteDao;
 import cn.core.features.Favoritable;
 import cn.core.jms.JMSType;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.handler.annotation.Payload;
