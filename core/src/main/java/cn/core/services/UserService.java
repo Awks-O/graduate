@@ -19,7 +19,6 @@ import static cn.core.utils.CheckUtil.check;
 
 /**
  * 用户相关处理类
- *
  */
 @Service
 @Slf4j

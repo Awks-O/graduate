@@ -16,9 +16,9 @@ public class PageReq {
 
     private int page = 1;
 
-    private int pagesize = 10;
+    private int pageSize = 10;
 
-    private String sortfield = "";
+    private String sortField = "";
 
     private String sort = "";
 
@@ -28,31 +28,31 @@ public class PageReq {
         super();
     }
 
-    public PageReq(int page, int pagesize, String sortfield, String sort,
-                   String keyword) {
+    private PageReq(int page, int pageSize, String sortField, String sort,
+                    String keyword) {
         super();
         this.page = page;
-        this.pagesize = pagesize;
-        this.sortfield = sortfield;
+        this.pageSize = pageSize;
+        this.sortField = sortField;
         this.sort = sort;
         this.keyword = keyword;
     }
 
     public PageReq getPageable() {
-        return new PageReq(page, pagesize, sortfield, sort, keyword);
+        return new PageReq(page, pageSize, sortField, sort, keyword);
     }
 
     public Pageable toPageable() {
         // pageable里面是从第0页开始的。
-        Pageable pageable = null;
+        Pageable pageable;
 
-        if (StringUtils.isEmpty(sortfield)) {
-            pageable = new PageRequest(page - 1, pagesize);
+        if (StringUtils.isEmpty(sortField)) {
+            pageable = PageRequest.of(page - 1, pageSize);
         } else {
-            pageable = new PageRequest(page - 1, pagesize,
+            pageable = PageRequest.of(page - 1, pageSize,
                     sort.toLowerCase().startsWith("desc") ? Direction.DESC
                             : Direction.ASC,
-                    sortfield);
+                    sortField);
         }
 
         return pageable;

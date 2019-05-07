@@ -32,6 +32,7 @@ public class SpringbootCodeTemplateApplication {
         bean.setOrder(0);
         return bean;
     }
+
     /**
      * 国际化配置
      */

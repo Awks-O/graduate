@@ -20,7 +20,6 @@ import static cn.core.utils.CheckUtil.*;
 
 /**
  * 配置业务处理类
- *
  */
 @Service
 @Slf4j

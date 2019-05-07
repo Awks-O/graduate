@@ -1,9 +1,10 @@
 /dist
 *.class
-/target
-.env.local
-.env.*.local
+
+.idea/
+core/target
+main/target
+
 *.iml
 
-.idea
 .vscode

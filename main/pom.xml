@@ -21,15 +21,15 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>cn.xiaowenjie</groupId>-->
-            <!--<artifactId>favorite</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
+        <!--<groupId>cn.xiaowenjie</groupId>-->
+        <!--<artifactId>favorite</artifactId>-->
+        <!--<version>1.0-SNAPSHOT</version>-->
         <!--</dependency>-->
 
         <!--<dependency>dependency-->
-            <!--<groupId>cn.xiaowenjie</groupId>-->
-            <!--<artifactId>blog</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
+        <!--<groupId>cn.xiaowenjie</groupId>-->
+        <!--<artifactId>blog</artifactId>-->
+        <!--<version>1.0-SNAPSHOT</version>-->
         <!--</dependency>-->
 
         <!-- 依赖 -->

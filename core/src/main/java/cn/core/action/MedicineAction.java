@@ -1,12 +1,15 @@
 package cn.core.action;
 
 import cn.core.beans.MedicineDO;
+import cn.core.services.MedicineService;
 import cn.core.utils.PageReq;
 import cn.core.utils.PageResp;
 import cn.core.utils.ResultBean;
-import cn.core.services.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/medicine")
 @RestController

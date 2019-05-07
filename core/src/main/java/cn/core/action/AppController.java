@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 /**
  * app相关的controller，支持跨域
- *
  */
 @RequestMapping("/app")
 @RestController

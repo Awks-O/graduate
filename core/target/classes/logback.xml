@@ -68,7 +68,7 @@
         <!--<from>${email_from}</from>-->
         <!--<subject>${email_subject}</subject>-->
         <!--<layout class="ch.qos.logback.classic.html.HTMLLayout">-->
-            <!--<pattern>%date%level%thread%logger{0}%line%message</pattern>-->
+        <!--<pattern>%date%level%thread%logger{0}%line%message</pattern>-->
         <!--</layout>-->
     </appender>
 

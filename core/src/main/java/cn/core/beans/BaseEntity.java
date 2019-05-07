@@ -13,8 +13,6 @@ import java.util.Date;
 
 /**
  * 基类
- *
- *
  */
 @Data
 @MappedSuperclass
