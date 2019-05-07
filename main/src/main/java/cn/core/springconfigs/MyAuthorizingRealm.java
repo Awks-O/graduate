@@ -1,7 +1,7 @@
 package cn.core.springconfigs;
 
-import cn.core.common.rbac.Role;
-import cn.core.common.rbac.User;
+import cn.core.beans.RoleDO;
+import cn.core.beans.UserDO;
 import cn.core.services.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -29,9 +29,9 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         logger.info("----------------------------->" + principals.getPrimaryPrincipal());
 
-        User user = (User) principals.getPrimaryPrincipal();
+        UserDO user = (UserDO) principals.getPrimaryPrincipal();
 
-        for (Role role : user.getRoles()) {
+        for (RoleDO role : user.getRoles()) {
 
             authorizationInfo.addRole(role.getName());
 
@@ -59,7 +59,7 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
         logger.info("----->" + username);
 
         //查询数据库，得到用户
-        User user = userService.findUser(username);
+        UserDO user = userService.findUser(username);
 
         if (user == null) {
             return null;

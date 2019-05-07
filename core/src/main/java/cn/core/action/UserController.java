@@ -1,14 +1,14 @@
 package cn.core.action;
 
-import cn.core.common.beans.PageReq;
-import cn.core.common.beans.PageResp;
-import cn.core.common.beans.ResultBean;
-import cn.core.common.rbac.User;
+import cn.core.beans.UserDO;
 import cn.core.services.UserService;
+import cn.core.utils.PageReq;
+import cn.core.utils.PageResp;
+import cn.core.utils.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,16 +26,16 @@ public class UserController {
      * @return
      */
     @GetMapping("/search")
-    public ResultBean<List<User>> search(@RequestParam String keyword) {
+    public ResultBean<List<UserDO>> search(@RequestParam String keyword) {
         System.out.println("UserController.search()" + keyword);
 
-        List<User> nodes = Arrays.asList();
+        List<UserDO> nodes = new ArrayList<>();
 
         return new ResultBean<>(nodes);
     }
 
     @GetMapping("/list")
-    public ResultBean<PageResp<User>> list(PageReq page) {
+    public ResultBean<PageResp<UserDO>> list(PageReq page) {
         return new ResultBean<>(userService.list(page.toPageable(), page.getKeyword()));
     }
 

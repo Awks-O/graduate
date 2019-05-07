@@ -1,10 +1,10 @@
 package cn.core.services;
 
-import cn.core.common.beans.PageResp;
-import cn.core.common.consts.Roles;
-import cn.core.common.daos.UserDao;
-import cn.core.common.rbac.User;
-import cn.core.tool.PasswordUtil;
+import cn.core.beans.UserDO;
+import cn.core.consts.Roles;
+import cn.core.daos.UserDao;
+import cn.core.utils.PageResp;
+import cn.core.utils.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -15,21 +15,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import static cn.core.common.utils.CheckUtil.check;
+import static cn.core.utils.CheckUtil.check;
 
 /**
  * 用户相关处理类
  *
- * @author 肖文杰 https://github.com/xwjie/
  */
 @Service
 @Slf4j
 public class UserService {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
-    public User findUser(String username) {
+    public UserDO findUser(String username) {
         return userDao.findByName(username);
     }
 
@@ -40,16 +39,15 @@ public class UserService {
      * @param password
      * @return
      */
-    public User login(String username, String password) {
+    public UserDO login(String username, String password) {
         Subject subject = SecurityUtils.getSubject();
 
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         subject.login(token);
 
         // 登陆成功，取出用户
-        User user = (User) subject.getPrincipal();
 
-        return user;
+        return (UserDO) subject.getPrincipal();
         //return findUser(username);
     }
 
@@ -59,9 +57,9 @@ public class UserService {
         subject.logout();
     }
 
-    public PageResp<User> list(Pageable pageable, String keyword) {
+    public PageResp<UserDO> list(Pageable pageable, String keyword) {
         if (StringUtils.isEmpty(keyword)) {
-            return new PageResp<User>(userDao.findAll(pageable));
+            return new PageResp<>(userDao.findAll(pageable));
         } else {
             // 也可以用springjpa 的 Specification 来实现查找
             return new PageResp<>(userDao.findAllByKeyword(keyword, pageable));
@@ -77,7 +75,7 @@ public class UserService {
     //FIXME why not work？？！！
     @RequiresRoles(Roles.ADMIN)
     public void updatePwd(long id, String password) {
-        User user = userDao.findById(id).get();
+        UserDO user = userDao.findById(id).get();
 
         check(checkPwd(password), "password.invalid");
 

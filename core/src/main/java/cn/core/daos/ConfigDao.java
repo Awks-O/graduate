@@ -8,8 +8,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * 配置类DAO
- *
- * @author 肖文杰 https://github.com/xwjie/
  */
 public interface ConfigDao extends PagingAndSortingRepository<Config, Long> {
 

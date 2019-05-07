@@ -1,9 +1,9 @@
 package cn.core.action;
 
 import cn.core.beans.Config;
-import cn.core.common.beans.PageReq;
-import cn.core.common.beans.PageResp;
-import cn.core.common.beans.ResultBean;
+import cn.core.utils.PageReq;
+import cn.core.utils.PageResp;
+import cn.core.utils.ResultBean;
 import cn.core.services.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,6 @@ import java.util.Collection;
 /**
  * 配置相关的controller，支持跨域
  *
- * @author 肖文杰 https://github.com/xwjie/
  */
 @RequestMapping("/config")
 @RestController

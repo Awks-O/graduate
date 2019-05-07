@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * 数节点，测试前台控件使用
  *
- * @author 肖文杰 https://github.com/xwjie/
  */
 @Data
 public class TreeNode {

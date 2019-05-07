@@ -3,7 +3,6 @@ package cn.core.consts;
 /**
  * 日志注解里面的常量，自己增加即可
  *
- * @author 晓风轻 https://github.com/xwjie/PLMCodeTemplate
  */
 public interface LogConst {
     /**

@@ -1,6 +1,5 @@
 package cn.core.beans;
 
-import cn.core.common.rbac.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedBy;
@@ -25,5 +24,5 @@ public class Config extends BaseEntity {
      */
     @CreatedBy
     @ManyToOne
-    private User creator;
+    private UserDO creator;
 }

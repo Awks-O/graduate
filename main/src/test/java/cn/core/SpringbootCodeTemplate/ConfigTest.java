@@ -1,22 +1,16 @@
 package cn.core.SpringbootCodeTemplate;
 
-import cn.core.SpringbootCodeTemplateApplication;
 import cn.core.beans.Config;
-import cn.core.common.daos.UserDao;
-import cn.core.common.exceptions.CheckException;
-import cn.core.common.rbac.User;
-import cn.core.common.utils.UserUtil;
+import cn.core.beans.UserDO;
+import cn.core.daos.UserDao;
+import cn.core.exception.CheckException;
 import cn.core.services.ConfigService;
+import cn.core.utils.UserUtil;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collection;
 
@@ -55,7 +49,7 @@ public class ConfigTest {
 
         // 新增用户
         {
-            User user = new User();
+            UserDO user = new UserDO();
 
             user.setName(userName);
             user.setNick("测试用户");
@@ -69,7 +63,7 @@ public class ConfigTest {
 
         // 测试新增数据是否成功
         {
-            User user = userDao.findByName(userName);
+            UserDO user = userDao.findByName(userName);
             assertNotNull(user);
         }
 
@@ -80,7 +74,7 @@ public class ConfigTest {
         System.out.println("\n\n---addConfig---\n\n");
 
         // 设置当前登陆用户
-        User user = userDao.findByName(userName);
+        UserDO user = userDao.findByName(userName);
         UserUtil.setUser(user);
 
         // 创建config数据
@@ -89,8 +83,8 @@ public class ConfigTest {
 
             config.setName("测试数据：" + randomNum);
             System.out.println("测试数据：" + randomNum);
-            config.setValue("https://github.com/xwjie");
-            config.setDescription("晓风轻：" + randomNum);
+            config.setValue("https://github.com/Awks-O");
+            config.setDescription("admin：" + randomNum);
 
             long newId = configService.add(config);
             assertTrue(newId > 0L);
@@ -111,7 +105,7 @@ public class ConfigTest {
     public void test4_addConfigException() {
         System.out.println("\n\n---addTestData---\n\n");
 
-        User user = userDao.findByName(userName);
+        UserDO user = userDao.findByName(userName);
 
         // 设置当前登陆用户
         UserUtil.setUser(user);
@@ -132,7 +126,7 @@ public class ConfigTest {
     public void test5_addConfigException() {
         System.out.println("\n\n---addTestData---\n\n");
 
-        User user = userDao.findByName(userName);
+        UserDO user = userDao.findByName(userName);
 
         // 设置当前登陆用户
         UserUtil.setUser(user);
@@ -157,7 +151,7 @@ public class ConfigTest {
     public void test6_addConfigException() {
         System.out.println("\n\n---addTestData---\n\n");
 
-        User user = userDao.findByName(userName);
+        UserDO user = userDao.findByName(userName);
 
         // 设置当前登陆用户
         UserUtil.setUser(user);
@@ -172,8 +166,8 @@ public class ConfigTest {
             Config config = new Config();
 
             config.setName("测试数据：" + randomNum);
-            config.setValue("https://github.com/xwjie");
-            config.setDescription("晓风轻：" + randomNum);
+            config.setValue("https://github.com/Awks-O");
+            config.setDescription("admin：" + randomNum);
 
             configService.add(config);
         }
@@ -183,7 +177,7 @@ public class ConfigTest {
     public void test7_deleteConfig() {
         System.out.println("\n\n---deleteConfig---\n\n");
 
-        User user = userDao.findByName(userName);
+        UserDO user = userDao.findByName(userName);
 
         // 设置当前登陆用户
         UserUtil.setUser(user);

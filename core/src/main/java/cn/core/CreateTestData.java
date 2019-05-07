@@ -1,12 +1,12 @@
 package cn.core;
 
 import cn.core.beans.Config;
-import cn.core.beans.Medicine;
-import cn.core.common.daos.UserDao;
-import cn.core.common.utils.UserUtil;
+import cn.core.beans.MedicineDO;
 import cn.core.daos.MedicineDao;
+import cn.core.daos.UserDao;
 import cn.core.services.ConfigService;
 import cn.core.services.UserService;
+import cn.core.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.ThreadContext;
@@ -18,10 +18,8 @@ import java.util.Date;
 
 /**
  * 增加测试数据 （上线时候需要删除掉）
- *
- * @author 晓风轻
  */
-//@Component
+@Component
 @Slf4j
 public class CreateTestData implements CommandLineRunner {
 
@@ -40,7 +38,7 @@ public class CreateTestData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // 用户不存在则创建测试数据
-        if (userDao.findByName("xwjie") == null) {
+        if (userDao.findByName("Awks-O") == null) {
             log.error("创建测试数据.....");
 
             createUsers();
@@ -56,11 +54,11 @@ public class CreateTestData implements CommandLineRunner {
         log.error("---addUser---");
 
         // role
-        Medicine data;
+        MedicineDO data;
 
         Date date = new Date();
         for (int i = 1; i <= 10; i++) {
-            data = new Medicine();
+            data = new MedicineDO();
 
             data.setAlarmValue(100D);
             data.setMedicineName("name" + i);
@@ -83,7 +81,7 @@ public class CreateTestData implements CommandLineRunner {
         log.error("---addTestData---");
 
         // 登陆
-        userSevice.login("xwjie", "123456");
+        userSevice.login("admin", "123456");
 
         //
         ThreadContext.bind(securityManager);
@@ -94,8 +92,8 @@ public class CreateTestData implements CommandLineRunner {
 
             config.setName("测试数据：" + i);
             System.out.println("测试数据：" + i);
-            config.setValue("https://github.com/xwjie");
-            config.setDescription("晓风轻：" + i);
+            config.setValue("https://github.com/Awks-O");
+            config.setDescription("admin：" + i);
 
             // 创建记录的用户
             config.setCreator(UserUtil.getUser());

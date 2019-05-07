@@ -1,10 +1,10 @@
 package cn.core.services;
 
 import cn.core.beans.Config;
-import cn.core.common.beans.PageResp;
-import cn.core.common.consts.Roles;
-import cn.core.common.utils.UserUtil;
+import cn.core.consts.Roles;
 import cn.core.daos.ConfigDao;
+import cn.core.utils.PageResp;
+import cn.core.utils.UserUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -16,12 +16,11 @@ import org.springframework.util.StringUtils;
 import java.util.Collection;
 import java.util.List;
 
-import static cn.core.common.utils.CheckUtil.*;
+import static cn.core.utils.CheckUtil.*;
 
 /**
  * 配置业务处理类
  *
- * @author 肖文杰 https://github.com/xwjie/
  */
 @Service
 @Slf4j

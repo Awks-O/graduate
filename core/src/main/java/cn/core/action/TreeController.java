@@ -1,7 +1,7 @@
 package cn.core.action;
 
 import cn.core.beans.TreeNode;
-import cn.core.common.beans.ResultBean;
+import cn.core.utils.ResultBean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
