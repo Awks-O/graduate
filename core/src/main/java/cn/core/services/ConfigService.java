@@ -3,7 +3,7 @@ package cn.core.services;
 import cn.core.beans.Config;
 import cn.core.consts.Roles;
 import cn.core.daos.ConfigDao;
-import cn.core.utils.PageResp;
+import cn.core.resp.PageResp;
 import cn.core.utils.UserUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +74,7 @@ public class ConfigService {
      * @param id
      * @return
      */
-    @RequiresRoles(Roles.ADMIN)
+//    @RequiresRoles(Roles.ADMIN)
     public boolean delete(long id) {
 
         Config config = dao.findById(id).get();

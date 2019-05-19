@@ -1,15 +1,13 @@
 package cn.core.action;
 
 import cn.core.beans.MedicineDO;
+import cn.core.req.PageReq;
+import cn.core.resp.PageResp;
 import cn.core.services.MedicineService;
-import cn.core.utils.PageReq;
-import cn.core.utils.PageResp;
+import cn.core.utils.Result;
 import cn.core.utils.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/medicine")
 @RestController
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MedicineAction {
 
     @Autowired
-    MedicineService service;
+    private MedicineService service;
 
     @GetMapping("/list")
     public ResultBean<PageResp<MedicineDO>> list(PageReq param) {
@@ -25,18 +23,13 @@ public class MedicineAction {
         return a;
     }
 
-    @PostMapping("add")
-    public ResultBean<PageResp<MedicineDO>> addMedicine(PageReq param) {
-        return null;
+    @PostMapping("/edit")
+    public Result addMedicine(@RequestBody MedicineDO param) {
+        return service.add(param);
     }
 
-    @PostMapping("edit")
-    public ResultBean<PageResp<MedicineDO>> editMedicine(PageReq param) {
-        return null;
-    }
-
-    @PostMapping("del")
-    public ResultBean<PageResp<MedicineDO>> delMedicine(Integer id) {
-        return null;
+    @PostMapping("/del")
+    public Result delMedicine(Long id) {
+        return service.delete(id);
     }
 }

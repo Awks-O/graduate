@@ -1,9 +1,9 @@
 package cn.core.action;
 
 import cn.core.beans.UserDO;
+import cn.core.req.PageReq;
+import cn.core.resp.PageResp;
 import cn.core.services.UserService;
-import cn.core.utils.PageReq;
-import cn.core.utils.PageResp;
 import cn.core.utils.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/user")
-public class UserController {
+public class UserAction {
 
     @Autowired
     UserService userService;
@@ -27,7 +27,7 @@ public class UserController {
      */
     @GetMapping("/search")
     public ResultBean<List<UserDO>> search(@RequestParam String keyword) {
-        System.out.println("UserController.search()" + keyword);
+        System.out.println("UserAction.search()" + keyword);
 
         List<UserDO> nodes = new ArrayList<>();
 

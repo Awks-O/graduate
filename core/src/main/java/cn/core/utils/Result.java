@@ -1,5 +1,6 @@
 package cn.core.utils;
 
+import cn.core.consts.ResultCode;
 import com.alibaba.fastjson.JSON;
 
 import java.io.Serializable;
@@ -16,15 +17,15 @@ public class Result<T> implements Serializable {
         this.data = data;
     }
 
-    public static <E> Result<E> failure(ResultCode code) {
+    public static Result failure(ResultCode code) {
         return new Result<>(code, null, null);
     }
 
-    public static <E> Result<E> failure(ResultCode code, String msg) {
+    public static Result failure(ResultCode code, String msg) {
         return new Result<>(code, msg, null);
     }
 
-    public static <E> Result<E> success() {
+    public static Result success() {
         return new Result<>(ResultCode.SUCCESS, null, null);
     }
 

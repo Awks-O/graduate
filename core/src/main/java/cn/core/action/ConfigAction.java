@@ -1,9 +1,9 @@
 package cn.core.action;
 
 import cn.core.beans.Config;
+import cn.core.req.PageReq;
+import cn.core.resp.PageResp;
 import cn.core.services.ConfigService;
-import cn.core.utils.PageReq;
-import cn.core.utils.PageResp;
 import cn.core.utils.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +16,14 @@ import java.util.Collection;
 @RequestMapping("/config")
 @RestController
 @CrossOrigin
-public class ConfigController {
+public class ConfigAction {
 
     @Autowired
-    ConfigService configService;
+    private ConfigService configService;
 
     @GetMapping("/all")
     public ResultBean<Collection<Config>> getAll() {
-        return new ResultBean<Collection<Config>>(configService.getAll());
+        return new ResultBean<>(configService.getAll());
     }
 
     @GetMapping(value = "/list")
@@ -33,8 +33,6 @@ public class ConfigController {
 
     /**
      * 新增配置
-     * <p>
-     * FIXME 同时支持json格式和表单格式
      *
      * @param config
      * @return
@@ -47,6 +45,6 @@ public class ConfigController {
 
     @PostMapping("/delete")
     public ResultBean<Boolean> delete(long id) {
-        return new ResultBean<Boolean>(configService.delete(id));
+        return new ResultBean<>(configService.delete(id));
     }
 }

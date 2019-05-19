@@ -17,8 +17,8 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/app")
 @RestController
 @CrossOrigin
-public class AppController {
-    private static final Logger logger = LoggerFactory.getLogger(AppController.class);
+public class AppAction {
+    private static final Logger logger = LoggerFactory.getLogger(AppAction.class);
 
     @Autowired
     private UserService userService;
@@ -33,7 +33,7 @@ public class AppController {
         //FIXME
         session.setAttribute(UserUtil.KEY_USER, user);
 
-        return new ResultBean<UserDO>(user);
+        return new ResultBean<>(user);
     }
 
     @PostMapping(value = "/user")
@@ -47,6 +47,6 @@ public class AppController {
         //session.invalidate();
         userService.logout();
 
-        return new ResultBean<Boolean>(true);
+        return new ResultBean<>(true);
     }
 }

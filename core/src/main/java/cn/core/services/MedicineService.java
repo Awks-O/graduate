@@ -2,7 +2,7 @@ package cn.core.services;
 
 import cn.core.beans.MedicineDO;
 import cn.core.daos.MedicineDao;
-import cn.core.utils.PageResp;
+import cn.core.resp.PageResp;
 import cn.core.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,6 @@ public class MedicineService {
 
     @Autowired
     private MedicineDao medicineDao;
-    @Autowired
-    private MedicineDao medicisneDao;
 
     public MedicineDO findByName() {
         return medicineDao.findByMedicineName("*");
@@ -33,6 +31,12 @@ public class MedicineService {
     }
 
     public Result add(MedicineDO medicineDO) {
+        medicineDao.save(medicineDO);
+        return Result.success();
+    }
+
+    public Result delete(Long id) {
+        medicineDao.deleteById(id);
         return Result.success();
     }
 }

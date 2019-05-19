@@ -1,4 +1,4 @@
-package cn.core.utils;
+package cn.core.req;
 
 import com.alibaba.fastjson.annotation.JSONType;
 import lombok.Data;

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class XWJDate {
+public class DateUtil {
 
     /**
      * 日期相隔多少天(除掉周末)

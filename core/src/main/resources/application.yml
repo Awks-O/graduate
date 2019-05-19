@@ -5,7 +5,7 @@ spring:
   #    host: localhost
   #    port: 6379
   datasource:
-    url: jdbc:mysql://localhost:3306/graduate?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/graduate?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -54,17 +54,5 @@ spring:
   #      settings:
   #        web-allow-others: true
   #        trace: true
-  mail:
-    password: xxxxxx
-    host: smtp.163.com
-    username: xxxxxx
-    from: xxxxxx@163.com
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
 server:
   port: 8080

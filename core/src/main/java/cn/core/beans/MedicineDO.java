@@ -28,4 +28,5 @@ public class MedicineDO extends BaseEntity {
 
     private Date purchaseDate;
 
+    private Integer forecast;
 }

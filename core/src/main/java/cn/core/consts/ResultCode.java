@@ -1,4 +1,4 @@
-package cn.core.utils;
+package cn.core.consts;
 
 public enum ResultCode {
 

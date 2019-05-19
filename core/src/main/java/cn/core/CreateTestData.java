@@ -12,14 +12,13 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 /**
  * 增加测试数据 （上线时候需要删除掉）
  */
-@Component
+//@Component
 @Slf4j
 public class CreateTestData implements CommandLineRunner {
 
@@ -51,7 +50,7 @@ public class CreateTestData implements CommandLineRunner {
     }
 
     public void createUsers() {
-        log.error("---addUser---");
+        log.info("---addUser---");
 
         // role
         MedicineDO data;
@@ -59,7 +58,6 @@ public class CreateTestData implements CommandLineRunner {
         Date date = new Date();
         for (int i = 1; i <= 10; i++) {
             data = new MedicineDO();
-
             data.setAlarmValue(100D);
             data.setMedicineName("name" + i);
             data.setMedicineNumber("num" + i);
