@@ -1,7 +1,7 @@
 package cn.core.services;
 
-import cn.core.beans.MedicineDO;
-import cn.core.daos.MedicineDao;
+import cn.core.beans.OutInfoDO;
+import cn.core.daos.OutInfoDao;
 import cn.core.resp.PageResp;
 import cn.core.utils.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -12,27 +12,27 @@ import org.springframework.util.StringUtils;
 
 @Service
 @Slf4j
-public class MedicineService {
+public class OutInfoService {
 
     @Autowired
-    private MedicineDao medicineDao;
+    private OutInfoDao detailDao;
 
-    public PageResp<MedicineDO> listPage(Pageable pageable, String keyword) {
+    public PageResp<OutInfoDO> listPage(Pageable pageable, String keyword) {
         if (StringUtils.isEmpty(keyword)) {
-            return new PageResp<>(medicineDao.findAll(pageable));
+            return new PageResp<>(detailDao.findAll(pageable));
         } else {
             // asd也可以用spring JPA 的 Specification 来实现查找
-            return new PageResp<>(medicineDao.findAllByKeyword(keyword, pageable));
+            return new PageResp<>(detailDao.findAllByKeyword(keyword, pageable));
         }
     }
 
-    public Result add(MedicineDO medicineDO) {
-        medicineDao.save(medicineDO);
+    public Result add(OutInfoDO outInDetailDO) {
+        detailDao.save(outInDetailDO);
         return Result.success();
     }
 
     public Result delete(Long id) {
-        medicineDao.deleteById(id);
+        detailDao.deleteById(id);
         return Result.success();
     }
 }

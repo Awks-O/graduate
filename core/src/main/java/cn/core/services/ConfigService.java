@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static cn.core.utils.CheckUtil.*;
+import org.python.util.PythonInterpreter;
 
 /**
  * 配置业务处理类

@@ -1,8 +1,12 @@
 package cn.core;
 
 import cn.core.beans.Config;
+import cn.core.beans.InInfoDO;
 import cn.core.beans.MedicineDO;
+import cn.core.beans.OutInfoDO;
+import cn.core.daos.InInfoDao;
 import cn.core.daos.MedicineDao;
+import cn.core.daos.OutInfoDao;
 import cn.core.daos.UserDao;
 import cn.core.services.ConfigService;
 import cn.core.services.UserService;
@@ -12,6 +16,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
@@ -26,6 +31,12 @@ public class CreateTestData implements CommandLineRunner {
     private MedicineDao medicineDao;
 
     @Autowired
+    private OutInfoDao detailDao;
+
+    @Autowired
+    private InInfoDao inInfoDao;
+
+    @Autowired
     private ConfigService configService;
 
     @Autowired
@@ -38,42 +49,76 @@ public class CreateTestData implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // 用户不存在则创建测试数据
         if (userDao.findByName("Awks-O") == null) {
-            log.error("创建测试数据.....");
+            log.info("创建测试数据.....");
 
-            createUsers();
+            createDetail();
+            createMedicine();
 
-            // FIXME
-            // createConfigs();
-
-            log.error("创建测试数据完毕");
+            log.info("创建测试数据完毕");
         }
     }
 
-    public void createUsers() {
+    private void createDetail() {
+        log.info("---addDetail--");
+
+        OutInfoDO detailDO;
+
+        for (int i=0; i <= 10; ++i){
+            detailDO = new OutInfoDO();
+            detailDO.setUnitPrice("1.1");
+            detailDO.setAmount(1000);
+            detailDO.setMedicineName("药品"+i);
+            detailDO.setMedicineNumber("药品编号"+i);
+            detailDO.setSupplier("供应商"+i);
+            detailDO.setOutDate(new Date());
+            detailDO.setStockUnit("盒");
+            detailDO.setCreateTime(new Date());
+            detailDao.save(detailDO);
+        }
+
+        InInfoDO inInfoDO;
+
+        for (int i=0; i <= 10; ++i){
+            inInfoDO = new InInfoDO();
+            inInfoDO.setExpirationDate("36个月");
+            inInfoDO.setProductionDate(new Date());
+            inInfoDO.setUnitPrice("1.1");
+            inInfoDO.setAmount(1000);
+            inInfoDO.setMedicineName("药品"+i);
+            inInfoDO.setMedicineNumber("药品编号"+i);
+            inInfoDO.setSupplier("供应商"+i);
+            inInfoDO.setInDate(new Date());
+            inInfoDO.setStockUnit("盒");
+            inInfoDO.setCreateTime(new Date());
+            inInfoDao.save(inInfoDO);
+        }
+
+    }
+    private void createMedicine() {
         log.info("---addUser---");
 
-        // role
         MedicineDO data;
 
         Date date = new Date();
         for (int i = 1; i <= 10; i++) {
             data = new MedicineDO();
             data.setAlarmValue(100D);
-            data.setMedicineName("name" + i);
-            data.setMedicineNumber("num" + i);
+            data.setMedicineName("药品" + i);
+            data.setMedicineNumber("药品编号" + i);
             data.setPurchaseDate(date);
             data.setStock(1000D);
-            data.setStockUnit("mm");
+            data.setStockUnit("盒");
+            data.setForecast(1);
+            data.setSupplier("供应商");
             data.setUsableTime(date);
             data.setCreateTime(date);
             data.setUpdateTime(date);
-
             medicineDao.save(data);
         }
     }
 
     @Autowired
-    SecurityManager securityManager;
+    private SecurityManager securityManager;
 
     public void createConfigs() {
         log.error("---addTestData---");
