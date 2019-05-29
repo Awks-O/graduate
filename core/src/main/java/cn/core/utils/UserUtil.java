@@ -4,7 +4,6 @@ import cn.core.beans.RoleDO;
 import cn.core.beans.UserDO;
 import cn.core.consts.Roles;
 import cn.core.exception.UnloginException;
-import org.apache.log4j.MDC;
 
 import java.util.List;
 import java.util.Locale;
@@ -26,7 +25,7 @@ public class UserUtil {
         tlUser.set(user);
 
         // 把用户信息放到log4j
-        MDC.put(KEY_USER, user.getName());
+        //MDC.put(KEY_USER, user.getName());
     }
 
     /**
@@ -73,7 +72,7 @@ public class UserUtil {
         tlUser.remove();
         tlLocale.remove();
 
-        MDC.remove(KEY_USER);
+        //MDC.remove(KEY_USER);
     }
 
     /**

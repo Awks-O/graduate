@@ -6,12 +6,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
+@Table(indexes = {
+        @Index(name = "medicine_number_unique", columnList = "medicineNumber", unique = true),
+        @Index(name = "medicine_name_unique", columnList = "medicineName")
+})
 public class MedicineDO extends BaseEntity {
 
     /**

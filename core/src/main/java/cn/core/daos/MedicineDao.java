@@ -6,10 +6,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.Date;
+
 public interface MedicineDao extends PagingAndSortingRepository<MedicineDO, Long> {
 
     MedicineDO findByMedicineName(String medicineName);
 
     @Query(value = "select t from MedicineDO t where t.medicineName like %?1% or t.medicineNumber like %?1%")
     Page<MedicineDO> findAllByKeyword(String keyword, Pageable pageable);
+
+    @Query(value = "select t from InInfoDO t where ?1<=t.updateTime order by t.inDate asc")
+    Page<MedicineDO> findLateHour(Date date, Pageable pageable);
 }

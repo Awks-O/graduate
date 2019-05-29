@@ -9,6 +9,8 @@ import cn.core.utils.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RequestMapping("/medicine")
 @RestController
 public class OutAction {
@@ -30,5 +32,10 @@ public class OutAction {
     @PostMapping("/outInfo/del")
     public Result delMedicine(Long id) {
         return service.delete(id);
+    }
+
+    @GetMapping("/outInfo/export")
+    public Result export(HttpServletResponse response) {
+        return service.fileExport(response);
     }
 }

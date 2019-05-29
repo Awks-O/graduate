@@ -6,39 +6,23 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 药品消耗趋势
  */
-@Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 public class TrendDO extends BaseEntity{
 
     /**
-     * 统计日期
+     * 时间，X轴
      */
-    private Date statisticalDate;
+    private List<Date> dateList;
 
     /**
-     * 消耗量
+     * 消耗量，Y轴
      */
-    private Integer consumption;
-
-    /**
-     * 药品编号
-     */
-    private String medicineNumber;
-
-    /**
-     * 药品名称
-     */
-    private String medicineName;
-
-    /**
-     * 供应商
-     */
-    private String supplier;
+    private List<Integer> amountList;
 
 }

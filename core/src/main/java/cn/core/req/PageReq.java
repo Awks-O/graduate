@@ -24,22 +24,25 @@ public class PageReq {
 
     private String keyword = "";
 
+    private String keyword1 = "";
+
     public PageReq() {
         super();
     }
 
     private PageReq(int page, int pageSize, String sortField, String sort,
-                    String keyword) {
+                    String keyword, String keyword1) {
         super();
         this.page = page;
         this.pageSize = pageSize;
         this.sortField = sortField;
         this.sort = sort;
         this.keyword = keyword;
+        this.keyword1 = keyword1;
     }
 
     public PageReq getPageable() {
-        return new PageReq(page, pageSize, sortField, sort, keyword);
+        return new PageReq(page, pageSize, sortField, sort, keyword, keyword1);
     }
 
     public Pageable toPageable() {

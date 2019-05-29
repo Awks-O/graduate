@@ -5,12 +5,18 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "medicine_number_unique", columnList = "medicineNumber", unique = true),
+        @Index(name = "medicine_name_unique", columnList = "medicineName")
+})
 public class OutInfoDO extends BaseEntity {
 
     /**

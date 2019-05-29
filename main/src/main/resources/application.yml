@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    active: dev
+  #  redis:
+  #    host: localhost
+  #    port: 6379
+  datasource:
+    url: jdbc:mysql://localhost:3306/graduate?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    #    database: h2
+    #    show-sql: true
+    #    hibernate:
+    #      ddl-auto: update
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  #  h2:
+  #    console:
+  #      enabled: true
+  #      path: /h2-console
+  #      settings:
+  #        web-allow-others: true
+  #        trace: true
+server:
+  port: 8085

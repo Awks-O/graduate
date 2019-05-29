@@ -5,12 +5,19 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "medicine_number_unique", columnList = "medicineNumber", unique = true),
+        @Index(name = "medicine_name_idx", columnList = "medicineName"),
+        @Index(name = "supplier_idx", columnList = "supplier")
+})
 public class PurchaseDO extends BaseEntity{
     /**
      * 药品编号
@@ -28,7 +35,7 @@ public class PurchaseDO extends BaseEntity{
     private String unit;
 
     /**
-     * 数量
+     * 预计采购数量
      */
     private Integer amount;
 
@@ -41,4 +48,9 @@ public class PurchaseDO extends BaseEntity{
      * 采购日期
      */
     private Date purchaseDate;
+
+    /**
+     * 是否预测
+     */
+    private Integer forecast;
 }

@@ -19,6 +19,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Random;
 
 /**
  * 增加测试数据 （上线时候需要删除掉）
@@ -52,7 +53,7 @@ public class CreateTestData implements CommandLineRunner {
             log.info("创建测试数据.....");
 
             createDetail();
-            createMedicine();
+//            createMedicine();
 
             log.info("创建测试数据完毕");
         }
@@ -63,18 +64,18 @@ public class CreateTestData implements CommandLineRunner {
 
         OutInfoDO detailDO;
 
-        for (int i=0; i <= 10; ++i){
-            detailDO = new OutInfoDO();
-            detailDO.setUnitPrice("1.1");
-            detailDO.setAmount(1000);
-            detailDO.setMedicineName("药品"+i);
-            detailDO.setMedicineNumber("药品编号"+i);
-            detailDO.setSupplier("供应商"+i);
-            detailDO.setOutDate(new Date());
-            detailDO.setStockUnit("盒");
-            detailDO.setCreateTime(new Date());
-            detailDao.save(detailDO);
-        }
+//        for (int i=0; i <= 10; ++i){
+//            detailDO = new OutInfoDO();
+//            detailDO.setUnitPrice("1.1");
+//            detailDO.setAmount(1000);
+//            detailDO.setMedicineName("药品"+i);
+//            detailDO.setMedicineNumber("药品编号"+i);
+//            detailDO.setSupplier("供应商"+i);
+//            detailDO.setOutDate(new Date());
+//            detailDO.setStockUnit("盒");
+//            detailDO.setCreateTime(new Date());
+//            detailDao.save(detailDO);
+//        }
 
         InInfoDO inInfoDO;
 
@@ -82,13 +83,14 @@ public class CreateTestData implements CommandLineRunner {
             inInfoDO = new InInfoDO();
             inInfoDO.setExpirationDate("36个月");
             inInfoDO.setProductionDate(new Date());
-            inInfoDO.setUnitPrice("1.1");
-            inInfoDO.setAmount(1000);
-            inInfoDO.setMedicineName("药品"+i);
-            inInfoDO.setMedicineNumber("药品编号"+i);
-            inInfoDO.setSupplier("供应商"+i);
+            inInfoDO.setUnitPrice("17.2");
+            Random random = new Random();
+            inInfoDO.setAmount(random.nextInt(10000)%(10000-1001) + 1000);
+            inInfoDO.setMedicineName("美沙拉嗪肠溶片");
+            inInfoDO.setMedicineNumber("86903810000546");
+            inInfoDO.setSupplier("葵花药业集团佳木斯鹿灵制药有限公司");
             inInfoDO.setInDate(new Date());
-            inInfoDO.setStockUnit("盒");
+            inInfoDO.setStockUnit("片");
             inInfoDO.setCreateTime(new Date());
             inInfoDao.save(inInfoDO);
         }
