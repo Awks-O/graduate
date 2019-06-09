@@ -3,6 +3,7 @@ package cn.core.beans;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@DynamicUpdate
 public class RoleDO extends BaseEntity {
 
     /**

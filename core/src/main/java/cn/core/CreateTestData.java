@@ -1,16 +1,13 @@
 package cn.core;
 
-import cn.core.beans.Config;
-import cn.core.beans.InInfoDO;
-import cn.core.beans.MedicineDO;
-import cn.core.beans.OutInfoDO;
-import cn.core.daos.InInfoDao;
-import cn.core.daos.MedicineDao;
-import cn.core.daos.OutInfoDao;
-import cn.core.daos.UserDao;
+import cn.core.beans.*;
+import cn.core.consts.Roles;
+import cn.core.daos.*;
 import cn.core.services.ConfigService;
 import cn.core.services.UserService;
+import cn.core.utils.PasswordUtil;
 import cn.core.utils.UserUtil;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.ThreadContext;
@@ -29,10 +26,13 @@ import java.util.Random;
 public class CreateTestData implements CommandLineRunner {
 
     @Autowired
-    private MedicineDao medicineDao;
+    private MedicinePageDao medicinePageDao;
 
     @Autowired
     private OutInfoDao detailDao;
+
+    @Autowired
+    private RoleDao roleDao;
 
     @Autowired
     private InInfoDao inInfoDao;
@@ -47,13 +47,14 @@ public class CreateTestData implements CommandLineRunner {
     private UserService userSevice;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         // 用户不存在则创建测试数据
-        if (userDao.findByName("Awks-O") == null) {
+        if (userDao.findByName("admin") == null) {
             log.info("创建测试数据.....");
 
-            createDetail();
+//            createDetail();
 //            createMedicine();
+            createUsers();
 
             log.info("创建测试数据完毕");
         }
@@ -79,13 +80,13 @@ public class CreateTestData implements CommandLineRunner {
 
         InInfoDO inInfoDO;
 
-        for (int i=0; i <= 10; ++i){
+        for (int i = 0; i <= 10; ++i) {
             inInfoDO = new InInfoDO();
             inInfoDO.setExpirationDate("36个月");
             inInfoDO.setProductionDate(new Date());
             inInfoDO.setUnitPrice("17.2");
             Random random = new Random();
-            inInfoDO.setAmount(random.nextInt(10000)%(10000-1001) + 1000);
+            inInfoDO.setAmount(random.nextInt(10000) % (10000 - 1001) + 1000);
             inInfoDO.setMedicineName("美沙拉嗪肠溶片");
             inInfoDO.setMedicineNumber("86903810000546");
             inInfoDO.setSupplier("葵花药业集团佳木斯鹿灵制药有限公司");
@@ -96,6 +97,7 @@ public class CreateTestData implements CommandLineRunner {
         }
 
     }
+
     private void createMedicine() {
         log.info("---addUser---");
 
@@ -115,7 +117,7 @@ public class CreateTestData implements CommandLineRunner {
             data.setUsableTime(date);
             data.setCreateTime(date);
             data.setUpdateTime(date);
-            medicineDao.save(data);
+            medicinePageDao.save(data);
         }
     }
 
@@ -144,6 +146,62 @@ public class CreateTestData implements CommandLineRunner {
             config.setCreator(UserUtil.getUser());
 
             configService.add(config);
+        }
+    }
+
+    public void createUsers() {
+        log.error("---addUser---");
+
+        // role
+        RoleDO normalRole = new RoleDO();
+
+        normalRole.setName(Roles.NORMAL_USER);
+        normalRole.setComment("普通用户");
+
+        normalRole = roleDao.save(normalRole);
+
+
+        RoleDO adminRole = new RoleDO();
+
+        adminRole.setName(Roles.ADMIN);
+        adminRole.setComment("管理员");
+
+        adminRole = roleDao.save(adminRole);
+
+        // amdin
+        UserDO admin = new UserDO();
+
+        admin.setName("admin");
+        admin.setNick("管理員");
+
+        // 盐和密码
+        admin.setSalt("admin");
+        String password = PasswordUtil.renewPassword("123456", admin.getSalt());
+
+        // 计算后密码
+        admin.setPassword(password);
+
+        // 角色
+        admin.setRoles(Lists.newArrayList(adminRole, normalRole));
+
+        userDao.save(admin);
+
+        for (int i = 1; i <= 10; i++) {
+            UserDO user = new UserDO();
+
+            user.setName("user" + i);
+            user.setNick("测试用户" + i);
+
+            // 盐和密码
+            user.setSalt(user.getName());
+            String password2 = PasswordUtil.renewPassword("123456", user.getSalt());
+
+            // 计算后密码
+            user.setPassword(password2);
+
+            user.setRoles(Lists.newArrayList(normalRole));
+
+            userDao.save(user);
         }
     }
 }

@@ -1,20 +1,20 @@
 package cn.core.daos;
 
 import cn.core.beans.MedicineDO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.CrudRepository;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 
-public interface MedicineDao extends PagingAndSortingRepository<MedicineDO, Long> {
+public interface MedicineDao extends CrudRepository<MedicineDO, Long> {
 
-    MedicineDO findByMedicineName(String medicineName);
+    @Transactional
+    @Modifying
+    @Query(value = "update MedicineDO t set t.stock=?2,t.updateTime=?3 where ?1=t.medicineNumber")
+    void saveByKeyword(String keyword, Double amount, Date date);
 
-    @Query(value = "select t from MedicineDO t where t.medicineName like %?1% or t.medicineNumber like %?1%")
-    Page<MedicineDO> findAllByKeyword(String keyword, Pageable pageable);
-
-    @Query(value = "select t from InInfoDO t where ?1<=t.updateTime order by t.inDate asc")
-    Page<MedicineDO> findLateHour(Date date, Pageable pageable);
+    @Query(value = "select t from MedicineDO t where t.medicineNumber like %?1%")
+    MedicineDO findByKeyword(String keyword);
 }

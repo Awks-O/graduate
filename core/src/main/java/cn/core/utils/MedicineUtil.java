@@ -1,25 +1,25 @@
 package cn.core.utils;
 
 import cn.core.beans.MedicineDO;
-import cn.core.daos.MedicineDao;
+import cn.core.daos.MedicinePageDao;
 
 public class MedicineUtil {
 
-    private static MedicineDao medicineDao;
+    private static MedicinePageDao medicinePageDao;
 
-    public static void setMedicineDao(MedicineDao medicineDao) {
-        MedicineUtil.medicineDao = medicineDao;
+    public static void setMedicinePageDao(MedicinePageDao medicinePageDao) {
+        MedicineUtil.medicinePageDao = medicinePageDao;
     }
 
     public static String get(String name) {
-        MedicineDO config = medicineDao.findByMedicineName(name);
+        MedicineDO config = medicinePageDao.findByMedicineName(name);
 
         assert (config != null);
         return config.getMedicineName();
     }
 
     public static String get(String name, String defaultValue) {
-        MedicineDO config = medicineDao.findByMedicineName(name);
+        MedicineDO config = medicinePageDao.findByMedicineName(name);
         return config != null ? config.getMedicineName() : defaultValue;
     }
 

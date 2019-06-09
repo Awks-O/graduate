@@ -1,11 +1,9 @@
 package cn.core.action;
 
 import cn.core.beans.InInfoDO;
-import cn.core.beans.OutInfoDO;
 import cn.core.req.PageReq;
 import cn.core.resp.PageResp;
 import cn.core.services.InInfoService;
-import cn.core.services.OutInfoService;
 import cn.core.utils.Result;
 import cn.core.utils.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,9 @@ public class InAction {
 
     @GetMapping("/inInfo/list")
     public ResultBean<PageResp<InInfoDO>> list(PageReq param) {
-        ResultBean<PageResp<InInfoDO>> a = new ResultBean<>(service.listPage(param.toPageable(), param.getKeyword()));
-        return a;
+        PageResp<InInfoDO> a = service.listPage(param.toPageable(), param.getKeyword());
+        a.setPagesize(param.getPageSize());
+        return new ResultBean<>(a);
     }
 
     @PostMapping("/inInfo/edit")

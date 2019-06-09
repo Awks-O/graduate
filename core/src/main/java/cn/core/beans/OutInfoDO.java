@@ -3,6 +3,7 @@ package cn.core.beans;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Index;
@@ -17,6 +18,7 @@ import java.util.Date;
         @Index(name = "medicine_number_unique", columnList = "medicineNumber", unique = true),
         @Index(name = "medicine_name_unique", columnList = "medicineName")
 })
+@DynamicUpdate
 public class OutInfoDO extends BaseEntity {
 
     /**

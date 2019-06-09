@@ -21,8 +21,9 @@ public class MedicineAction {
 
     @GetMapping("/list")
     public ResultBean<PageResp<MedicineDO>> list(PageReq param) {
-        ResultBean<PageResp<MedicineDO>> a = new ResultBean<>(service.listPage(param.toPageable(), param.getKeyword()));
-        return a;
+        PageResp<MedicineDO> a = service.listPage(param.toPageable(), param.getKeyword());
+        a.setPagesize(param.getPageSize());
+        return new ResultBean<>(a);
     }
 
     @PostMapping("/edit")

@@ -1,7 +1,9 @@
 package cn.core.action;
 
 import cn.core.beans.UserDO;
+import cn.core.consts.ResultCode;
 import cn.core.services.UserService;
+import cn.core.utils.Result;
 import cn.core.utils.ResultBean;
 import cn.core.utils.UserUtil;
 import org.slf4j.Logger;
@@ -24,16 +26,20 @@ public class AppAction {
     private UserService userService;
 
     @PostMapping(value = "/login")
-    public ResultBean<UserDO> login(HttpSession session, @RequestParam String username, @RequestParam String
+    public Result login(HttpSession session, @RequestParam String username, @RequestParam String
             password) {
         logger.info("login user:" + username);
 
-        UserDO user = userService.login(username, password);
-
+        UserDO user;
+        try {
+            user = userService.login(username, password);
+        } catch (Exception ignored) {
+            return Result.failure(ResultCode.FAIL);
+        }
         //FIXME
         session.setAttribute(UserUtil.KEY_USER, user);
 
-        return new ResultBean<>(user);
+        return Result.success(user);
     }
 
     @PostMapping(value = "/user")

@@ -20,8 +20,9 @@ public class OutAction {
 
     @GetMapping("/outInfo/list")
     public ResultBean<PageResp<OutInfoDO>> list(PageReq param) {
-        ResultBean<PageResp<OutInfoDO>> a = new ResultBean<>(service.listPage(param.toPageable(), param.getKeyword()));
-        return a;
+        PageResp<OutInfoDO> a = service.listPage(param.toPageable(), param.getKeyword());
+        a.setPagesize(param.getPageSize());
+        return new ResultBean<>(a);
     }
 
     @PostMapping("/outInfo/edit")

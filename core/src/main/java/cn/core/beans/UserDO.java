@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Table(indexes = {@Index(name = "user_name_unique", columnList = "name", unique = true)})
+@DynamicUpdate
 public class UserDO extends BaseEntity {
 
     private static final long serialVersionUID = 1L;

@@ -1,8 +1,9 @@
 package cn.core.services;
 
-import cn.core.beans.InInfoDO;
+import cn.core.beans.MedicineDO;
 import cn.core.beans.OutInfoDO;
 import cn.core.consts.ResultCode;
+import cn.core.daos.MedicineDao;
 import cn.core.daos.OutInfoDao;
 import cn.core.resp.PageResp;
 import cn.core.utils.ExportUtil;
@@ -16,10 +17,7 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -27,6 +25,9 @@ public class OutInfoService {
 
     @Autowired
     private OutInfoDao detailDao;
+
+    @Autowired
+    private MedicineDao medicineDao;
 
     public PageResp<OutInfoDO> listPage(Pageable pageable, String keyword) {
         if (StringUtils.isEmpty(keyword)) {
@@ -38,7 +39,13 @@ public class OutInfoService {
     }
 
     public Result add(OutInfoDO outInDetailDO) {
+        Date date = new Date();
+        outInDetailDO.setUpdateTime(date);
         detailDao.save(outInDetailDO);
+        MedicineDO medicineDO = medicineDao.findByKeyword(outInDetailDO.getMedicineNumber());
+        medicineDO.setStock(medicineDO.getStock()-outInDetailDO.getAmount().doubleValue());
+        medicineDO.setUpdateTime(date);
+        medicineDao.save(medicineDO);
         return Result.success();
     }
 
@@ -81,8 +88,8 @@ public class OutInfoService {
     }
 
     public static void main(String[] args) {
-        for (int i=1; i < 1000; i++){
-            System.out.print(i*90+",");
+        for (int i = 1; i < 1000; i++) {
+            System.out.print(i * 90 + ",");
         }
     }
 }

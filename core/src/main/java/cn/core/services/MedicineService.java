@@ -2,7 +2,7 @@ package cn.core.services;
 
 import cn.core.beans.MedicineDO;
 import cn.core.consts.ResultCode;
-import cn.core.daos.MedicineDao;
+import cn.core.daos.MedicinePageDao;
 import cn.core.resp.PageResp;
 import cn.core.utils.ExportUtil;
 import cn.core.utils.Result;
@@ -14,39 +14,38 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
 public class MedicineService {
 
     @Autowired
-    private MedicineDao medicineDao;
+    private MedicinePageDao medicinePageDao;
 
     public PageResp<MedicineDO> listPage(Pageable pageable, String keyword) {
         if (StringUtils.isEmpty(keyword)) {
-            return new PageResp<>(medicineDao.findAll(pageable));
+            return new PageResp<>(medicinePageDao.findAll(pageable));
         } else {
             // asd也可以用spring JPA 的 Specification 来实现查找
-            return new PageResp<>(medicineDao.findAllByKeyword(keyword, pageable));
+            return new PageResp<>(medicinePageDao.findAllByKeyword(keyword, pageable));
         }
     }
 
     public Result add(MedicineDO medicineDO) {
-        medicineDao.save(medicineDO);
+        Date date = new Date();
+        medicineDO.setUpdateTime(date);
+        medicinePageDao.save(medicineDO);
         return Result.success();
     }
 
     public Result delete(Long id) {
-        medicineDao.deleteById(id);
+        medicinePageDao.deleteById(id);
         return Result.success();
     }
 
     public Result fileExport(HttpServletResponse response) {
-        List<MedicineDO> list = (List<MedicineDO>) medicineDao.findAll();
+        List<MedicineDO> list = (List<MedicineDO>) medicinePageDao.findAll();
 
         if (list.size() == 0) {
             Result.failure(ResultCode.NOT_FOUND);

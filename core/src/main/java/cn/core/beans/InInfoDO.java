@@ -3,6 +3,7 @@ package cn.core.beans;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Index;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@DynamicUpdate
 @Table(indexes = {
         @Index(name = "medicine_number_unique", columnList = "medicineNumber"),
         @Index(name = "medicine_name_unique", columnList = "medicineName")

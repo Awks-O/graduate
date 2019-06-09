@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
+
 /**
  * 分页请求参数
  */
@@ -24,7 +26,7 @@ public class PageReq {
 
     private String keyword = "";
 
-    private String keyword1 = "";
+    private String keyword1 = new Date(4104004841L).toString();
 
     public PageReq() {
         super();
@@ -37,6 +39,14 @@ public class PageReq {
         this.pageSize = pageSize;
         this.sortField = sortField;
         this.sort = sort;
+        this.keyword = keyword;
+        this.keyword1 = keyword1;
+    }
+
+    private PageReq(int page, int pageSize, String keyword, String keyword1) {
+        super();
+        this.page = page;
+        this.pageSize = pageSize;
         this.keyword = keyword;
         this.keyword1 = keyword1;
     }

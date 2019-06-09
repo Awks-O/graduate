@@ -3,6 +3,7 @@ package cn.core.beans;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Index;
@@ -18,7 +19,8 @@ import java.util.Date;
         @Index(name = "medicine_name_idx", columnList = "medicineName"),
         @Index(name = "supplier_idx", columnList = "supplier")
 })
-public class PurchaseDO extends BaseEntity{
+@DynamicUpdate
+public class PurchaseDO extends BaseEntity {
     /**
      * 药品编号
      */

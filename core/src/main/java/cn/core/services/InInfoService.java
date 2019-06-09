@@ -4,6 +4,7 @@ import cn.core.beans.InInfoDO;
 import cn.core.beans.MedicineDO;
 import cn.core.consts.ResultCode;
 import cn.core.daos.InInfoDao;
+import cn.core.daos.MedicineDao;
 import cn.core.resp.PageResp;
 import cn.core.utils.ExportUtil;
 import cn.core.utils.Result;
@@ -16,10 +17,7 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -27,6 +25,9 @@ public class InInfoService {
 
     @Autowired
     private InInfoDao inInfoDao;
+
+    @Autowired
+    private MedicineDao medicineDao;
 
     public PageResp<InInfoDO> listPage(Pageable pageable, String keyword) {
         if (StringUtils.isEmpty(keyword)) {
@@ -37,8 +38,14 @@ public class InInfoService {
         }
     }
 
-    public Result add(InInfoDO outInDetailDO) {
-        inInfoDao.save(outInDetailDO);
+    public Result add(InInfoDO infoDO) {
+        Date date = new Date();
+        infoDO.setUpdateTime(date);
+        inInfoDao.save(infoDO);
+        MedicineDO medicineDO = medicineDao.findByKeyword(infoDO.getMedicineNumber());
+        medicineDO.setStock(medicineDO.getStock()+infoDO.getAmount().doubleValue());
+        medicineDO.setUpdateTime(date);
+        medicineDao.save(medicineDO);
         return Result.success();
     }
 

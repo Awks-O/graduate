@@ -15,7 +15,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @SpringBootApplication
 @ServletComponentScan
-@ImportResource(locations={"classpath:jobs.xml"})
+@ImportResource(locations = {"classpath:jobs.xml"})
 public class SpringbootCodeTemplateApplication {
 
     public static void main(String[] args) {

@@ -1,5 +1,6 @@
 //package cn.core.SpringbootCodeTemplate;
 //
+//import cn.core.SpringbootCodeTemplateApplication;
 //import cn.core.beans.Config;
 //import cn.core.beans.UserDO;
 //import cn.core.daos.UserDao;
@@ -7,19 +8,24 @@
 //import cn.core.services.ConfigService;
 //import cn.core.utils.UserUtil;
 //import org.junit.Before;
+//import org.junit.FixMethodOrder;
 //import org.junit.Rule;
 //import org.junit.Test;
 //import org.junit.rules.ExpectedException;
+//import org.junit.runner.RunWith;
+//import org.junit.runners.MethodSorters;
 //import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.test.context.junit4.SpringRunner;
 //
 //import java.util.Collection;
 //
 //import static org.junit.Assert.assertNotNull;
 //import static org.junit.Assert.assertTrue;
 //
-////@RunWith(SpringRunner.class)
-////@SpringBootTest(classes = SpringbootCodeTemplateApplication.class)
-////@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = SpringbootCodeTemplateApplication.class)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 //public class ConfigTest {
 //
 //    @Autowired

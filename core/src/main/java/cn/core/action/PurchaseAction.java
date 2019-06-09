@@ -19,13 +19,15 @@ public class PurchaseAction {
     private PurchaseService service;
 
     @GetMapping("/purchase/forecast")
-    public Result forecast(String num){
+    public Result forecast(String num) {
         return service.forecast(num);
     }
+
     @GetMapping("/purchase/list")
     public ResultBean<PageResp<PurchaseDO>> list(PageReq param) {
-        ResultBean<PageResp<PurchaseDO>> a = new ResultBean<>(service.listPage(param.toPageable(), param.getKeyword(), param.getKeyword1()));
-        return a;
+        PageResp<PurchaseDO> a = service.listPage(param.toPageable(), param.getKeyword(), param.getKeyword1());
+        a.setPagesize(param.getPageSize());
+        return new ResultBean<>(a);
     }
 
     @PostMapping("/purchase/edit")

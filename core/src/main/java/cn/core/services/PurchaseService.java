@@ -2,10 +2,9 @@ package cn.core.services;
 
 import cn.core.beans.InInfoDO;
 import cn.core.beans.PurchaseDO;
-import cn.core.beans.TrendDO;
 import cn.core.consts.ResultCode;
 import cn.core.daos.InInfoDao;
-import cn.core.daos.PurchaseDao;
+import cn.core.daos.PurchasePageDao;
 import cn.core.req.PageReq;
 import cn.core.resp.PageResp;
 import cn.core.utils.ExportUtil;
@@ -20,6 +19,8 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,20 +29,27 @@ import java.util.stream.Collectors;
 public class PurchaseService {
 
     @Autowired
-    private PurchaseDao purchaseDao;
+    private PurchasePageDao purchasePageDao;
 
     @Autowired
     private InInfoDao infoDao;
 
-    public Result<TrendDO> forecast(String num) {
+    public Result forecast(String num) {
+        PageReq pageReq = new PageReq();
+        pageReq.setPageSize(30);
+        pageReq.setPage(1);
         List<InInfoDO> list = infoDao.findAllByKeyword1
-                (num, new PageReq().toPageable()).getContent();
-        List<Date> xList = list.stream().map(InInfoDO::getInDate).collect(Collectors.toList());
-        List<Integer> yList = list.stream().map(InInfoDO::getAmount).collect(Collectors.toList());
-        TrendDO trendDO = new TrendDO();
-        trendDO.setAmountList(yList);
-        trendDO.setDateList(xList);
-        return Result.success(trendDO);
+                (num, pageReq.toPageable()).getContent();
+        List<Map<String, String>> tempList = new ArrayList<>();
+        IdentityHashMap<String, String> map;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        for (InInfoDO inInfoDO : list) {
+            map = new IdentityHashMap<>();
+            map.put(new String("日期"), dateFormat.format(inInfoDO.getInDate()));
+            map.put(new String("数量"), inInfoDO.getAmount().toString());
+            tempList.add(map);
+        }
+        return Result.success(tempList, "success");
     }
 
     public PageResp<PurchaseDO> listPage(Pageable pageable, String keyword, String keyword1) {
@@ -50,28 +58,41 @@ public class PurchaseService {
         } else {
             PageResp<PurchaseDO> resp = new PageResp<>(query(pageable, keyword));
             List<PurchaseDO> list = resp.getRows();
-            list = list.stream().filter(a -> a.getSupplier().contains(keyword1)).collect(Collectors.toList());
+            Date date;
+            try {
+                date = DateFormat.getDateInstance().parse(keyword1);
+            } catch (ParseException e) {
+                return null;
+            }
+            list = list.stream().filter(a -> a.getPurchaseDate() == null || a.getPurchaseDate().getTime() < date.getTime()).collect(Collectors.toList());
             resp.setRows(list);
             return resp;
         }
     }
 
     public Result add(PurchaseDO purchaseDO) {
-        purchaseDao.save(purchaseDO);
+        Date date = new Date();
+        purchaseDO.setUpdateTime(date);
+        purchasePageDao.save(purchaseDO);
         return Result.success();
     }
 
     public Result delete(Long id) {
-        purchaseDao.deleteById(id);
+        purchasePageDao.deleteById(id);
         return Result.success();
     }
 
     public Result fileExport(HttpServletResponse response, Pageable pageable, String keyword, String keyword1) {
         List<PurchaseDO> list = query(pageable, keyword).getContent();
         if (!StringUtils.isEmpty(keyword1)) {
-            list = list.stream().filter(a -> a.getSupplier().contains(keyword1)).collect(Collectors.toList());
+            Date date;
+            try {
+                date = DateFormat.getDateInstance().parse(keyword1);
+            } catch (ParseException e) {
+                return Result.failure(ResultCode.FAIL);
+            }
+            list = list.stream().filter(a -> a.getPurchaseDate().getTime() < date.getTime()).collect(Collectors.toList());
         }
-
         if (list.size() == 0) {
             Result.failure(ResultCode.NOT_FOUND);
         }
@@ -103,24 +124,11 @@ public class PurchaseService {
 
 
     private Page<PurchaseDO> query(Pageable pageable, String keyword) {
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, 15);
-        date = calendar.getTime();
         if (StringUtils.isEmpty(keyword)) {
-            return purchaseDao.findAll(date, pageable);
+            return purchasePageDao.findAll(pageable);
         } else {
-            return purchaseDao.findAllByKeyword(date, keyword, pageable);
+            return purchasePageDao.findAllByKeyword(keyword, pageable);
         }
     }
 
-    public static void main(String[] args) {
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, -7100);
-        date = calendar.getTime();
-        System.out.println(date);
-    }
 }
