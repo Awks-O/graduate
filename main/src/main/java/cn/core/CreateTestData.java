@@ -15,13 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
 /**
  * 增加测试数据 （上线时候需要删除掉）
  */
-//@Component
+@Component
 @Slf4j
 public class CreateTestData implements CommandLineRunner {
 
@@ -52,9 +53,9 @@ public class CreateTestData implements CommandLineRunner {
         if (userDao.findByName("admin") == null) {
             log.info("创建测试数据.....");
 
-//            createDetail();
+            createDetail();
 //            createMedicine();
-            createUsers();
+//            createUsers();
 
             log.info("创建测试数据完毕");
         }
@@ -80,18 +81,23 @@ public class CreateTestData implements CommandLineRunner {
 
         InInfoDO inInfoDO;
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.YEAR, 2016);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         for (int i = 0; i <= 10; ++i) {
             inInfoDO = new InInfoDO();
-            inInfoDO.setExpirationDate("36个月");
+            inInfoDO.setExpirationDate("24个月");
             inInfoDO.setProductionDate(new Date());
             inInfoDO.setUnitPrice("17.2");
             Random random = new Random();
             inInfoDO.setAmount(random.nextInt(10000) % (10000 - 1001) + 1000);
-            inInfoDO.setMedicineName("美沙拉嗪肠溶片");
-            inInfoDO.setMedicineNumber("86903810000546");
-            inInfoDO.setSupplier("葵花药业集团佳木斯鹿灵制药有限公司");
-            inInfoDO.setInDate(new Date());
-            inInfoDO.setStockUnit("片");
+            inInfoDO.setMedicineName("琥乙红霉素片");
+            inInfoDO.setMedicineNumber("86904036000105");
+            inInfoDO.setSupplier("青岛正大海尔制药有限公司");
+            inInfoDO.setInDate(calendar.getTime());
+            calendar.add(Calendar.MONTH, 3);
+            inInfoDO.setStockUnit("12片/板*2板/盒");
             inInfoDO.setCreateTime(new Date());
             inInfoDao.save(inInfoDO);
         }
@@ -109,7 +115,7 @@ public class CreateTestData implements CommandLineRunner {
             data.setAlarmValue(100D);
             data.setMedicineName("药品" + i);
             data.setMedicineNumber("药品编号" + i);
-            data.setPurchaseDate(date);
+            data.setPeriod(3);
             data.setStock(1000D);
             data.setStockUnit("盒");
             data.setForecast(1);
