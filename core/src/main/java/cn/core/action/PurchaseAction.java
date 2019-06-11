@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 @RequestMapping("/medicine")
 @RestController
@@ -41,7 +42,7 @@ public class PurchaseAction {
     }
 
     @GetMapping("/purchase/export")
-    public Result export(HttpServletResponse response, PageReq param) {
-        return service.fileExport(response, param.toPageable(), param.getKeyword(), param.getKeyword1());
+    public Result export(HttpServletResponse response, String date, String keyword) {
+        return service.fileExport(response, date, keyword);
     }
 }

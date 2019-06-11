@@ -15,7 +15,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Table(indexes = {
-        @Index(name = "medicine_number_unique", columnList = "medicineNumber", unique = true),
+        @Index(name = "medicine_number_unique", columnList = "medicineNumber"),
         @Index(name = "medicine_name_unique", columnList = "medicineName")
 })
 @DynamicUpdate

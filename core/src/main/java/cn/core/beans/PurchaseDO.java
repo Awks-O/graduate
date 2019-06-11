@@ -47,7 +47,7 @@ public class PurchaseDO extends BaseEntity {
     private String supplier;
 
     /**
-     * 采购日期
+     * 订货提前期
      */
     private Date purchaseDate;
 

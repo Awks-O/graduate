@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringbootCodeTemplateApplication.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ConfigTest {
+public class ProjectTest {
 
     @Autowired
     ConfigService configService;

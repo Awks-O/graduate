@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 public interface PurchaseDao extends CrudRepository<PurchaseDO, Long> {
 
@@ -17,4 +18,7 @@ public interface PurchaseDao extends CrudRepository<PurchaseDO, Long> {
 
     @Query(value = "select t from PurchaseDO t where ?1=t.medicineNumber")
     PurchaseDO findByKeyword(String keyword);
+
+    @Query(value = "select t from PurchaseDO t where ?1=t.supplier")
+    List<PurchaseDO> findByKeyword1(String keyword);
 }

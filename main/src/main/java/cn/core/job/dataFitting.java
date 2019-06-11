@@ -13,7 +13,10 @@ import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static java.lang.Math.pow;
 
@@ -34,7 +37,7 @@ public class dataFitting implements SimpleJob {
 
     @Override
     public void execute(ShardingContext shardingContext) {
-        log.info("定时库存消耗开始");
+        log.info("库存消耗预测开始");
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -53,29 +56,28 @@ public class dataFitting implements SimpleJob {
         pageReq.setPageSize(100);
         List<MedicineDO> list = medicinePageDao.findAll(new PageReq().toPageable()).getContent();
         for (MedicineDO medicineDO : list) {
-
             data = inInfoDao.findAllByKeyword1(medicineDO.getMedicineNumber(), pageReq.toPageable()).getContent();
-            if (data.size() == 0){
-                purchaseDO = purchaseDao.findByKeyword(medicineDO.getMedicineNumber());
-                if (purchaseDO != null) {
-                    purchaseDO.setUpdateTime(new Date());
-                    purchaseDO.setForecast(medicineDO.getForecast());
-                    purchaseDO.setMedicineName(medicineDO.getMedicineName());
-                    purchaseDO.setMedicineNumber(medicineDO.getMedicineNumber());
-                    purchaseDO.setSupplier(medicineDO.getSupplier());
-                    purchaseDO.setUnit(medicineDO.getStockUnit());
-                    purchaseDao.save(purchaseDO);
-                } else {
-                    purchaseDO = new PurchaseDO();
-                    purchaseDO.setId(medicineDO.getId());
-                    purchaseDO.setUpdateTime(new Date());
-                    purchaseDO.setForecast(medicineDO.getForecast());
-                    purchaseDO.setMedicineName(medicineDO.getMedicineName());
-                    purchaseDO.setMedicineNumber(medicineDO.getMedicineNumber());
-                    purchaseDO.setSupplier(medicineDO.getSupplier());
-                    purchaseDO.setUnit(medicineDO.getStockUnit());
-                    purchaseDao.save(purchaseDO);
-                }
+            if (data.size() == 0) {
+//                purchaseDO = purchaseDao.findByKeyword(medicineDO.getMedicineNumber());
+//                if (purchaseDO != null) {
+//                    purchaseDO.setUpdateTime(new Date());
+//                    purchaseDO.setForecast(medicineDO.getForecast());
+//                    purchaseDO.setMedicineName(medicineDO.getMedicineName());
+//                    purchaseDO.setMedicineNumber(medicineDO.getMedicineNumber());
+//                    purchaseDO.setSupplier(medicineDO.getSupplier());
+//                    purchaseDO.setUnit(medicineDO.getStockUnit());
+//                    purchaseDao.save(purchaseDO);
+//                } else {
+//                    purchaseDO = new PurchaseDO();
+//                    purchaseDO.setId(medicineDO.getId());
+//                    purchaseDO.setUpdateTime(new Date());
+//                    purchaseDO.setForecast(medicineDO.getForecast());
+//                    purchaseDO.setMedicineName(medicineDO.getMedicineName());
+//                    purchaseDO.setMedicineNumber(medicineDO.getMedicineNumber());
+//                    purchaseDO.setSupplier(medicineDO.getSupplier());
+//                    purchaseDO.setUnit(medicineDO.getStockUnit());
+//                    purchaseDao.save(purchaseDO);
+//                }
                 continue;
             }
             for (int j = 0; j < data.size(); j++) {
@@ -89,47 +91,49 @@ public class dataFitting implements SimpleJob {
                     long day1 = calendar.getTimeInMillis();
                     calendar.setTime(data.get(j - 1).getInDate());
                     long day2 = calendar.getTimeInMillis();
-                    offSet = offSet + (day1 - day2)/(24*60*60*1000);
+                    offSet = offSet + (day1 - day2) / (24 * 60 * 60 * 1000);
                     xList.add((double) offSet);
                 }
             }
-            avg = (double) (offSet/data.size());
+            //avg = (double) (offSet/data.size());
             int rank = 50;
             square.generateFormula(xList, yList, rank);
 
             double result = 0;
             if (square.factors != null) {
-                result = square.calculate(avg);
+                result = square.calculate(medicineDO.getPeriod() * 30);
             }
 
             medicineDO.setUpdateTime(new Date());
             calendar.setTime(data.get(data.size() - 1).getInDate());
-            calendar.add(java.util.Calendar.DAY_OF_YEAR, (int) avg);
+            // 最后入库日期加上订购周期得到订货提前期
+            calendar.add(Calendar.MONTH, medicineDO.getPeriod());
             Date forecast = calendar.getTime();
-            calendar.set(Calendar.DAY_OF_MONTH, 16);
-            Date next = calendar.getTime();
-            if (forecast.getTime() <= next.getTime()) {
-                medicineDO.setUsableTime(next);
-            } else {
-                calendar.add(Calendar.MONTH, 1);
-                medicineDO.setUsableTime(calendar.getTime());
-            }
-            calendar.add(java.util.Calendar.DAY_OF_YEAR, -15);
-            medicineDO.setPurchaseDate(calendar.getTime());
+            // 完全消耗日期
+            medicineDO.setUsableTime(forecast);
             medicinePageDao.save(medicineDO);
 
             purchaseDO = purchaseDao.findByKeyword(medicineDO.getMedicineNumber());
             if (purchaseDO != null) {
                 purchaseDO.setUpdateTime(new Date());
-                purchaseDO.setAmount((int)result);
                 purchaseDO.setForecast(medicineDO.getForecast());
+                if (purchaseDO.getForecast() == 1) {
+                    purchaseDO.setAmount((result == 0 ? data.get(data.size() - 1).getAmount() : (int) result));
+                } else {
+                    purchaseDO.setAmount(null);
+                }
+                calendar.add(Calendar.DAY_OF_YEAR, -15);
                 purchaseDO.setPurchaseDate(calendar.getTime());
                 purchaseDao.save(purchaseDO);
             } else {
                 purchaseDO = new PurchaseDO();
                 purchaseDO.setId(medicineDO.getId());
                 purchaseDO.setUpdateTime(new Date());
-                purchaseDO.setAmount((int)result);
+                if (purchaseDO.getForecast() == 1) {
+                    purchaseDO.setAmount((result == 0 ? data.get(data.size() - 1).getAmount() : (int) result));
+                } else {
+                    purchaseDO.setAmount(null);
+                }
                 purchaseDO.setForecast(medicineDO.getForecast());
                 purchaseDO.setMedicineName(medicineDO.getMedicineName());
                 purchaseDO.setMedicineNumber(medicineDO.getMedicineNumber());
@@ -254,8 +258,7 @@ public class dataFitting implements SimpleJob {
                 // 若对应位置全为0则无解
                 if (j == factorial) {
                     return false;
-                }
-                else {
+                } else {
                     double[] tmp = augmentedMatrix[i];
                     augmentedMatrix[i] = augmentedMatrix[j];
                     augmentedMatrix[j] = tmp;

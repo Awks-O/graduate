@@ -55,7 +55,7 @@ public class MedicineDO extends BaseEntity {
     /**
      * 预订购日期
      */
-    private Date purchaseDate;
+    //private Date purchaseDate;
 
     /**
      * 是否预测
@@ -66,4 +66,9 @@ public class MedicineDO extends BaseEntity {
      * 供应商
      */
     private String supplier;
+
+    /**
+     * 订货周期
+     */
+    private Integer period;
 }

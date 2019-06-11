@@ -4,11 +4,13 @@ import cn.core.beans.InInfoDO;
 import cn.core.beans.PurchaseDO;
 import cn.core.consts.ResultCode;
 import cn.core.daos.InInfoDao;
+import cn.core.daos.PurchaseDao;
 import cn.core.daos.PurchasePageDao;
 import cn.core.req.PageReq;
 import cn.core.resp.PageResp;
 import cn.core.utils.ExportUtil;
 import cn.core.utils.Result;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,9 @@ public class PurchaseService {
 
     @Autowired
     private PurchasePageDao purchasePageDao;
+
+    @Autowired
+    private PurchaseDao purchaseDao;
 
     @Autowired
     private InInfoDao infoDao;
@@ -82,23 +87,27 @@ public class PurchaseService {
         return Result.success();
     }
 
-    public Result fileExport(HttpServletResponse response, Pageable pageable, String keyword, String keyword1) {
-        List<PurchaseDO> list = query(pageable, keyword).getContent();
-        if (!StringUtils.isEmpty(keyword1)) {
-            Date date;
-            try {
-                date = DateFormat.getDateInstance().parse(keyword1);
-            } catch (ParseException e) {
-                return Result.failure(ResultCode.FAIL);
-            }
-            list = list.stream().filter(a -> a.getPurchaseDate().getTime() < date.getTime()).collect(Collectors.toList());
+    public Result fileExport(HttpServletResponse response, String keyword1, String keyword) {
+        List<PurchaseDO> list;
+        if (StringUtils.isEmpty(keyword)) {
+            list = Lists.newArrayList(purchaseDao.findAll());
+        } else {
+            list = purchaseDao.findByKeyword1(keyword);
         }
+        Date date;
+        try {
+            date = DateFormat.getDateInstance().parse(keyword1);
+        } catch (ParseException e) {
+            return Result.failure(ResultCode.FAIL);
+        }
+        list = list.stream().filter(a -> a.getPurchaseDate() == null
+                || a.getPurchaseDate().getTime() < date.getTime()).collect(Collectors.toList());
         if (list.size() == 0) {
             Result.failure(ResultCode.NOT_FOUND);
         }
 
         String sTitle = "本位码,药品名称,预计采购量,规格,供应商,预订购日期";
-        String fName = "药品采购清单";
+        String fName = "药品采购清单 ";
         String mapKey = "medicineNumber,medicineName,amount,unit,supplier,purchaseDate";
         List<Map<String, Object>> dataList = new ArrayList<>();
         Map<String, Object> map;
@@ -109,7 +118,7 @@ public class PurchaseService {
             map.put("amount", order.getAmount());
             map.put("unit", order.getUnit());
             map.put("supplier", order.getSupplier());
-            map.put("purchaseDate", DateFormat.getDateInstance(DateFormat.DEFAULT).format(order.getPurchaseDate()));
+            map.put("purchaseDate", order.getPurchaseDate()!=null? DateFormat.getDateInstance(DateFormat.DEFAULT).format(order.getPurchaseDate()): null);
             dataList.add(map);
         }
         try (final OutputStream os = response.getOutputStream()) {
