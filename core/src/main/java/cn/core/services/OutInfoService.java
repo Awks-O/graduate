@@ -43,7 +43,7 @@ public class OutInfoService {
         outInDetailDO.setUpdateTime(date);
         detailDao.save(outInDetailDO);
         MedicineDO medicineDO = medicineDao.findByKeyword(outInDetailDO.getMedicineNumber());
-        medicineDO.setStock(medicineDO.getStock()-outInDetailDO.getAmount().doubleValue());
+        medicineDO.setStock(medicineDO.getStock() - outInDetailDO.getAmount().doubleValue());
         medicineDO.setUpdateTime(date);
         medicineDao.save(medicineDO);
         return Result.success();
@@ -78,7 +78,7 @@ public class OutInfoService {
             dataList.add(map);
         }
         try (final OutputStream os = response.getOutputStream()) {
-            ExportUtil.responseSetProperties(fName, response);
+            ExportUtil.setHeader(fName, response);
             ExportUtil.doExport(dataList, sTitle, mapKey, os);
             return null;
         } catch (Exception e) {

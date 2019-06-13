@@ -53,6 +53,12 @@ public class MedicineDO extends BaseEntity {
     private Date usableTime;
 
     /**
+     * 阶乘因子
+     */
+    private String factorial;
+
+
+    /**
      * 预订购日期
      */
     //private Date purchaseDate;

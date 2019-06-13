@@ -43,7 +43,7 @@ public class InInfoService {
         infoDO.setUpdateTime(date);
         inInfoDao.save(infoDO);
         MedicineDO medicineDO = medicineDao.findByKeyword(infoDO.getMedicineNumber());
-        medicineDO.setStock(medicineDO.getStock()+infoDO.getAmount().doubleValue());
+        medicineDO.setStock(medicineDO.getStock() + infoDO.getAmount().doubleValue());
         medicineDO.setUpdateTime(date);
         medicineDao.save(medicineDO);
         return Result.success();
@@ -80,7 +80,7 @@ public class InInfoService {
             dataList.add(map);
         }
         try (final OutputStream os = response.getOutputStream()) {
-            ExportUtil.responseSetProperties(fName, response);
+            ExportUtil.setHeader(fName, response);
             ExportUtil.doExport(dataList, sTitle, mapKey, os);
             return null;
         } catch (Exception e) {

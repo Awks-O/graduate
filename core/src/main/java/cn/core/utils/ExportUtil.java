@@ -32,7 +32,7 @@ public class ExportUtil {
      */
     public static boolean doExport(List<Map<String, Object>> dataList, String colNames, String mapKey, OutputStream os) {
         try {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
 
             String[] colNamesArr;
             String[] mapKeyArr;
@@ -68,7 +68,7 @@ public class ExportUtil {
     /**
      * setHeader
      */
-    public static void responseSetProperties(String fileName, HttpServletResponse response) throws UnsupportedEncodingException {
+    public static void setHeader(String fileName, HttpServletResponse response) throws UnsupportedEncodingException {
         // 设置文件后缀
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String fn = fileName + sdf.format(new Date()) + ".csv";

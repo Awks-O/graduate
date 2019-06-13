@@ -1,9 +1,11 @@
 package cn.core.services;
 
 import cn.core.beans.InInfoDO;
+import cn.core.beans.MedicineDO;
 import cn.core.beans.PurchaseDO;
 import cn.core.consts.ResultCode;
 import cn.core.daos.InInfoDao;
+import cn.core.daos.MedicineDao;
 import cn.core.daos.PurchaseDao;
 import cn.core.daos.PurchasePageDao;
 import cn.core.req.PageReq;
@@ -39,21 +41,33 @@ public class PurchaseService {
     @Autowired
     private InInfoDao infoDao;
 
+    @Autowired
+    private MedicineDao medicineDao;
+
     public Result forecast(String num) {
         PageReq pageReq = new PageReq();
         pageReq.setPageSize(30);
         pageReq.setPage(1);
         List<InInfoDO> list = infoDao.findAllByKeyword1
                 (num, pageReq.toPageable()).getContent();
+        MedicineDO medicineDO = medicineDao.findByKeyword(num);
         List<Map<String, String>> tempList = new ArrayList<>();
         IdentityHashMap<String, String> map;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
         for (InInfoDO inInfoDO : list) {
             map = new IdentityHashMap<>();
-            map.put(new String("日期"), dateFormat.format(inInfoDO.getInDate()));
+            map.put(new String("日期"), dateFormat.format(inInfoDO.getInDate())+"");
             map.put(new String("数量"), inInfoDO.getAmount().toString());
             tempList.add(map);
         }
+        map = new IdentityHashMap<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(list.get(list.size()-1).getInDate());
+        calendar.add(Calendar.MONTH, medicineDO.getPeriod());
+        map.put(new String("日期"), dateFormat.format(calendar.getTime())+"(预测)");
+        PurchaseDO purchaseDO = purchaseDao.findByKeyword(num);
+        map.put(new String("数量"), purchaseDO.getAmount().toString());
+        tempList.add(map);
         return Result.success(tempList, "success");
     }
 
@@ -118,11 +132,11 @@ public class PurchaseService {
             map.put("amount", order.getAmount());
             map.put("unit", order.getUnit());
             map.put("supplier", order.getSupplier());
-            map.put("purchaseDate", order.getPurchaseDate()!=null? DateFormat.getDateInstance(DateFormat.DEFAULT).format(order.getPurchaseDate()): null);
+            map.put("purchaseDate", order.getPurchaseDate() != null ? DateFormat.getDateInstance(DateFormat.DEFAULT).format(order.getPurchaseDate()) : null);
             dataList.add(map);
         }
         try (final OutputStream os = response.getOutputStream()) {
-            ExportUtil.responseSetProperties(fName, response);
+            ExportUtil.setHeader(fName, response);
             ExportUtil.doExport(dataList, sTitle, mapKey, os);
             return null;
         } catch (Exception e) {

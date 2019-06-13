@@ -66,7 +66,7 @@ public class MedicineService {
             dataList.add(map);
         }
         try (final OutputStream os = response.getOutputStream()) {
-            ExportUtil.responseSetProperties(fName, response);
+            ExportUtil.setHeader(fName, response);
             ExportUtil.doExport(dataList, sTitle, mapKey, os);
             return null;
         } catch (Exception e) {

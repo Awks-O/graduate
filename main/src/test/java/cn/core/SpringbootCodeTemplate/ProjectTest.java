@@ -4,7 +4,6 @@ import cn.core.SpringbootCodeTemplateApplication;
 import cn.core.beans.Config;
 import cn.core.beans.UserDO;
 import cn.core.daos.UserDao;
-import cn.core.exception.CheckException;
 import cn.core.services.ConfigService;
 import cn.core.utils.UserUtil;
 import org.junit.Before;
